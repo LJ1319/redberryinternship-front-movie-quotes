@@ -20,14 +20,18 @@ export default {
       padding: {
         18: '70px'
       },
+      borderRadius: {
+        clg: '10px'
+      },
       colors: {
+        'light-mirage': '#222030',
+        'dark-mirage': '#181624',
         gold: '#DDCCAA',
         red: {
           DEFAULT: '#E31221'
         },
-        'dark-blue': '#181624',
-        zinc: {
-          DEFAULT: '#D9D9D9'
+        blue: {
+          DEFAULT: '#0D6EFD'
         }
       }
     }
