@@ -1,12 +1,37 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import PageHeader from '@/components/shared/PageHeader.vue'
+import PageModal from '@/components/shared/PageModal.vue'
+import SignupForm from '@/components/landing/SignupForm.vue'
+import LoginForm from '@/components/landing/LoginForm.vue'
+import ForgotPasswordForm from '@/components/landing/ForgotPasswordForm.vue'
 import PageFooter from '@/components/shared/PageFooter.vue'
+
+const modalIsOpen = ref(false)
+
+let currentModal = ref<string | null>(null)
+
+const openModal = (modal: string) => {
+  currentModal.value = modal
+  modalIsOpen.value = true
+}
+
+const closeModal = () => {
+  modalIsOpen.value = false
+}
 </script>
 
 <template>
-  <page-header />
+  <page-header v-on:open="openModal" />
 
   <main>
+    <page-modal v-if="modalIsOpen" v-on:close="closeModal">
+      <signup-form v-if="currentModal === 'signup'" v-on:switch="openModal" />
+      <login-form v-if="currentModal === 'login'" v-on:switch="openModal" />
+      <forgot-password-form v-if="currentModal === 'forgot'" v-on:switch="openModal" />
+    </page-modal>
+
     <section
       style="background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%)"
       class="min-h-screen w-screen"
@@ -24,12 +49,12 @@ import PageFooter from '@/components/shared/PageFooter.vue'
         <h1 class="z-10 text-center text-2xl font-bold text-gold lg:text-6xl lg:leading-[6rem]">
           Find any quote in millions of movie lines
         </h1>
-        <router-link
-          to="/"
-          class="z-10 flex h-10 max-w-32 items-center justify-center rounded bg-red px-4 font-helvetica-neue text-white lg:h-12 lg:max-w-36 lg:text-xl"
+        <button
+          v-on:click.stop="openModal('signup')"
+          class="z-10 h-10 max-w-32 rounded bg-red px-4 text-white lg:h-12 lg:max-w-36 lg:text-xl"
         >
           Get Started
-        </router-link>
+        </button>
       </div>
 
       <div
@@ -46,13 +71,9 @@ import PageFooter from '@/components/shared/PageFooter.vue'
 
       <div
         style="background-image: url(../../public/images/interstellar.png)"
-        class="h-screen w-screen bg-cover bg-fixed bg-center bg-no-repeat"
-      ></div>
-
-      <div
-        class="absolute inset-x-6 top-1/3 flex h-screen max-w-5xl items-center justify-center lg:left-40 lg:top-[calc(50%+1rem)]"
+        class="flex h-screen w-screen items-center bg-cover bg-fixed bg-center bg-no-repeat"
       >
-        <div class="flex gap-4">
+        <div class="mx-6 flex h-max gap-4 lg:mx-40 lg:max-w-5xl">
           <div class="flex h-6 items-center lg:h-16">
             <div class="h-1 w-4 shrink-0 bg-white lg:w-14"></div>
           </div>
@@ -61,7 +82,9 @@ import PageFooter from '@/components/shared/PageFooter.vue'
             <p class="font-montserrat text-xl font-bold text-white lg:text-6xl">
               “You have to leave something behind to go forward!”
             </p>
-            <p class="mt-4 font-montserrat font-bold text-zinc lg:text-3xl">Interstellar, 2014</p>
+            <p class="l g:text-3xl mt-4 font-montserrat font-bold text-zinc-300">
+              Interstellar, 2014
+            </p>
           </div>
         </div>
       </div>
@@ -94,13 +117,9 @@ import PageFooter from '@/components/shared/PageFooter.vue'
 
       <div
         style="background-image: url(../../public/images/royal.png)"
-        class="h-screen w-screen bg-cover bg-fixed bg-center bg-no-repeat"
-      ></div>
-
-      <div
-        class="absolute inset-x-6 top-0 flex h-screen max-w-5xl items-center justify-center lg:left-40"
+        class="flex h-screen w-screen items-center bg-cover bg-fixed bg-center bg-no-repeat"
       >
-        <div class="flex gap-4">
+        <div class="mx-6 flex h-max gap-4 lg:mx-40 lg:max-w-5xl">
           <div class="flex h-6 items-center lg:h-16">
             <div class="h-1 w-4 shrink-0 bg-white lg:w-14"></div>
           </div>
@@ -110,7 +129,7 @@ import PageFooter from '@/components/shared/PageFooter.vue'
               “I think we’re just gonna have to be secretly in love with each other and leave it to
               that...”
             </p>
-            <p class="mt-4 font-montserrat font-bold text-zinc lg:text-3xl">
+            <p class="mt-4 font-montserrat font-bold text-zinc-300 lg:text-3xl">
               The Royal Tenenbaums, 2001
             </p>
           </div>
@@ -145,13 +164,9 @@ import PageFooter from '@/components/shared/PageFooter.vue'
 
       <div
         style="background-image: url(../../public/images/lotr.png)"
-        class="h-screen w-screen bg-cover bg-fixed bg-center bg-no-repeat"
-      ></div>
-
-      <div
-        class="absolute inset-x-6 top-0 flex h-screen max-w-5xl items-center justify-center lg:left-40"
+        class="flex h-screen w-screen items-center bg-cover bg-fixed bg-center bg-no-repeat"
       >
-        <div class="flex gap-4">
+        <div class="mx-6 flex h-max gap-4 lg:mx-40 lg:max-w-5xl">
           <div class="flex h-6 items-center lg:h-16">
             <div class="h-1 w-4 shrink-0 bg-white lg:w-14"></div>
           </div>
@@ -162,7 +177,7 @@ import PageFooter from '@/components/shared/PageFooter.vue'
               must take. The grey rain-curtain of this world rolls back, and all turns to silver
               glass, and then you see it.”
             </p>
-            <p class="mt-4 font-montserrat font-bold text-zinc lg:text-3xl">
+            <p class="mt-4 font-montserrat font-bold text-zinc-300 lg:text-3xl">
               Return of the King, 2003
             </p>
           </div>
