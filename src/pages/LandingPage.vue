@@ -1,24 +1,77 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { VerifyEmail } from '@/services/api/auth'
 
 import PageHeader from '@/components/shared/PageHeader.vue'
 import PageModal from '@/components/shared/PageModal.vue'
-import SignupForm from '@/components/landing/SignupForm.vue'
-import LoginForm from '@/components/landing/LoginForm.vue'
-import ForgotPasswordForm from '@/components/landing/ForgotPasswordForm.vue'
 import PageFooter from '@/components/shared/PageFooter.vue'
 
+import SignupForm from '@/components/auth/SignupForm.vue'
+import LoginForm from '@/components/auth/LoginForm.vue'
+import ForgotPasswordForm from '@/components/auth/ForgotPasswordForm.vue'
+import ResetPasswordForm from '@/components/auth/ResetPasswordForm.vue'
+
+import ActivationInstructions from '@/components/landing/ActivationInstructions.vue'
+import ActivationMessage from '@/components/landing/ActivationMessage.vue'
+import ResetInstructions from '@/components/landing/ResetInstructions.vue'
+import ResetMessage from '@/components/landing/ResetMessage.vue'
+import ResendInstructions from '@/components/landing/ResendInstructions.vue'
+
+const router = useRouter()
+const route = useRoute()
+
 const modalIsOpen = ref(false)
+let modalContent = ref<string | null>(null)
+let url = ref('')
+let token = ref('')
+let email = ref('')
 
-let currentModal = ref<string | null>(null)
-
-const openModal = (modal: string) => {
-  currentModal.value = modal
+const openModal = (content: string) => {
+  modalContent.value = content
   modalIsOpen.value = true
 }
 
 const closeModal = () => {
   modalIsOpen.value = false
+}
+
+const verifyEmail = async (url: string) => {
+  try {
+    await VerifyEmail(url)
+    openModal('activation-message')
+  } catch (error) {
+    openModal('resend-instructions')
+  }
+}
+
+if (route.query.verificationUrl && route.query.email) {
+  const verificationUrl = route.query.verificationUrl
+  const signature = route.query.signature
+  const url = `${verificationUrl}&signature=${signature}`
+
+  email.value = route.query.email.toString()
+
+  router.replace({ query: undefined })
+
+  verifyEmail(url)
+}
+
+if (route.query.resetUrl && route.query.signature && route.query.token && route.query.email) {
+  const resetUrl = route.query.resetUrl
+  const signature = route.query.signature
+  token.value = route.query.token.toString()
+  email.value = route.query.email.toString()
+
+  url.value = `${resetUrl}&signature=${signature}`
+
+  router.replace({ query: undefined })
+
+  openModal('reset-password')
+}
+
+const setEmail = (value: string) => {
+  email.value = value
 }
 </script>
 
@@ -27,9 +80,57 @@ const closeModal = () => {
 
   <main>
     <page-modal v-if="modalIsOpen" v-on:close="closeModal">
-      <signup-form v-if="currentModal === 'signup'" v-on:switch="openModal" />
-      <login-form v-if="currentModal === 'login'" v-on:switch="openModal" />
-      <forgot-password-form v-if="currentModal === 'forgot'" v-on:switch="openModal" />
+      <signup-form
+        v-if="modalContent === 'signup'"
+        v-on:close="closeModal"
+        v-on:setEmail="setEmail"
+        v-on:switch="openModal"
+      />
+
+      <activation-instructions
+        v-if="modalContent === 'activation-instructions'"
+        v-on:close="closeModal"
+        :email="email"
+      />
+
+      <activation-message v-if="modalContent === 'activation-message'" v-on:close="closeModal" />
+
+      <login-form v-if="modalContent === 'login'" v-on:close="closeModal" v-on:switch="openModal" />
+
+      <forgot-password-form
+        v-if="modalContent === 'forgot'"
+        v-on:close="closeModal"
+        v-on:setEmail="setEmail"
+        v-on:switch="openModal"
+      />
+
+      <reset-instructions
+        v-if="modalContent === 'reset-instructions'"
+        v-on:close="closeModal"
+        :email="email"
+      />
+
+      <reset-password-form
+        v-if="modalContent === 'reset-password'"
+        v-on:close="closeModal"
+        v-on:switch="openModal"
+        :url="url"
+        :token="token"
+        :email="email"
+      />
+
+      <reset-message
+        v-if="modalContent === 'reset-message'"
+        v-on:close="closeModal"
+        v-on:switch="openModal"
+      />
+
+      <resend-instructions
+        v-if="modalContent === 'resend-instructions'"
+        v-on:close="closeModal"
+        v-on:switch="openModal"
+        :email="email"
+      />
     </page-modal>
 
     <section
@@ -70,7 +171,7 @@ const closeModal = () => {
       ></div>
 
       <div
-        style="background-image: url(../../public/images/interstellar.png)"
+        style="background-image: url(/interstellar.png)"
         class="flex h-screen w-screen items-center bg-cover bg-fixed bg-center bg-no-repeat"
       >
         <div class="mx-6 flex h-max gap-4 lg:mx-40 lg:max-w-5xl">
@@ -116,7 +217,7 @@ const closeModal = () => {
       ></div>
 
       <div
-        style="background-image: url(../../public/images/royal.png)"
+        style="background-image: url(/royal.png)"
         class="flex h-screen w-screen items-center bg-cover bg-fixed bg-center bg-no-repeat"
       >
         <div class="mx-6 flex h-max gap-4 lg:mx-40 lg:max-w-5xl">
@@ -163,7 +264,7 @@ const closeModal = () => {
       ></div>
 
       <div
-        style="background-image: url(../../public/images/lotr.png)"
+        style="background-image: url(/lotr.png)"
         class="flex h-screen w-screen items-center bg-cover bg-fixed bg-center bg-no-repeat"
       >
         <div class="mx-6 flex h-max gap-4 lg:mx-40 lg:max-w-5xl">

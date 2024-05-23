@@ -30,16 +30,13 @@ const validatedClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-
       {{ label }}
     </label>
 
-    <Field v-slot="{ field, meta }" :name="name" :rules="rules" validate-on-input>
+    <Field v-slot="{ field, meta, errors }" :name="name" :rules="rules" validate-on-input>
       <input
         v-bind="field"
         :type="isPassword ? 'password' : 'text'"
         :id="name"
         :placeholder="placeholder"
-        :class="[
-          meta.dirty && !meta.valid && errorClass,
-          meta.dirty && meta.valid && validatedClass
-        ]"
+        :class="[errors.length > 0 && errorClass, meta.dirty && meta.valid && validatedClass]"
         class="peer h-10 rounded bg-gray-300 px-4 focus:outline-none focus:ring-4 focus:ring-gray-400"
       />
 
@@ -48,7 +45,7 @@ const validatedClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-
           <icon-visible />
         </button>
 
-        <span v-if="meta.dirty && !meta.valid">
+        <span v-if="errors.length > 0">
           <icon-invalid />
         </span>
 

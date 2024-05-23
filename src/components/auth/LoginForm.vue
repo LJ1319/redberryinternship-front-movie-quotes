@@ -1,26 +1,44 @@
 <script setup lang="ts">
-import { ErrorMessage, Field, Form } from 'vee-validate'
+import { ErrorMessage, Field, useForm } from 'vee-validate'
+import type { LoginCredentials } from '@/types'
+import { Login } from '@/services/api/auth'
 
-import IconGoogle from '@/components/icons/IconGoogle.vue'
 import FormGroup from '@/components/base/form/FormGroup.vue'
+import GoogleButton from '@/components/base/buttons/GoogleButton.vue'
+import PrimaryButton from '@/components/base/form/PrimaryButton.vue'
+import IconClose from '@/components/icons/IconClose.vue'
 
 const emit = defineEmits<{
-  switch: [modal: string]
+  close: []
+  switch: [content: string]
 }>()
 
-const onSubmit = (values: Object) => {
-  console.log(values)
-}
+const { handleSubmit, setFieldError, resetField } = useForm<LoginCredentials>()
+
+const onSubmit = handleSubmit(async (values: LoginCredentials) => {
+  try {
+    await Login(values)
+  } catch (error: any) {
+    setFieldError('email', error.response.data.message)
+    resetField('password', { value: '' })
+  }
+})
 </script>
 
 <template>
+  <div class="flex justify-end lg:hidden">
+    <button v-on:click="emit('close')">
+      <icon-close />
+    </button>
+  </div>
+
   <div class="flex flex-col gap-10">
     <div class="flex flex-col gap-3 text-center">
       <h1 class="text-2xl font-medium text-white lg:text-[2rem]">Log in to your account</h1>
       <h2 class="text-gray-500">Welcome back! Please enter your details.</h2>
     </div>
 
-    <Form v-on:submit="onSubmit" class="flex flex-col gap-6">
+    <form v-on:submit="onSubmit" class="flex flex-col gap-6">
       <form-group
         name="email"
         label="Email"
@@ -41,13 +59,14 @@ const onSubmit = (values: Object) => {
         <div class="flex flex-col gap-2">
           <div class="flex items-center gap-2">
             <Field
-              type="checkbox"
               name="remember"
+              type="checkbox"
               id="remember"
-              value="remember"
-              rules="required"
+              :value="true"
+              :unchecked-value="false"
               class="h-4 w-4"
             />
+
             <label for="remember" class="text-white">Remember me</label>
           </div>
           <ErrorMessage name="remember" class="text-sm text-red-500" />
@@ -59,16 +78,10 @@ const onSubmit = (values: Object) => {
       </div>
 
       <div class="flex flex-col gap-4">
-        <button class="h-10 w-full rounded bg-red text-white">Sign in</button>
-        <button
-          type="button"
-          class="flex h-10 w-full items-center justify-center gap-2 rounded border border-white text-white"
-        >
-          <icon-google />
-          Sign in with google
-        </button>
+        <primary-button action="Sign in" />
+        <google-button action="Sign in" />
       </div>
-    </Form>
+    </form>
 
     <p class="text-center text-gray-500">
       Don't have an account?
