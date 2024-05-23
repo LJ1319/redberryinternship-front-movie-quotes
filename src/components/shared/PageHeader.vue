@@ -2,7 +2,7 @@
 import IconCaretDown from '@/components/icons/IconCaretDown.vue'
 
 const emit = defineEmits<{
-  open: [modal: string]
+  open: [content: string]
 }>()
 </script>
 
@@ -24,15 +24,13 @@ const emit = defineEmits<{
             v-on:click.stop="emit('open', 'signup')"
             class="flex h-8 min-w-20 items-center justify-center rounded bg-red px-2 text-white lg:h-10 lg:w-28 lg:px-4"
           >
-            <!--            Sign Up-->
-            რეგისტაცია
+            Sign Up
           </button>
           <button
             v-on:click.stop="emit('open', 'login')"
             class="flex h-8 min-w-[4.5rem] items-center justify-center rounded border border-white px-2 text-white lg:h-10 lg:w-24 lg:px-4"
           >
-            <!--            Log In-->
-            შესვლა
+            Log In
           </button>
         </div>
       </div>
