@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { VerifyEmail } from '@/services/api/auth'
+import { GoogleCallback, VerifyEmail } from '@/services/api/auth'
 
 import PageHeader from '@/components/shared/PageHeader.vue'
 import PageModal from '@/components/shared/PageModal.vue'
@@ -72,6 +72,19 @@ if (route.query.resetUrl && route.query.signature && route.query.token && route.
 
 const setEmail = (value: string) => {
   email.value = value
+}
+
+const handleGoogleAuth = async (code: string) => {
+  try {
+    await GoogleCallback(code)
+  } catch (error: any) {
+    console.log(error)
+  }
+}
+
+if (route.query.authuser && route.query.code) {
+  handleGoogleAuth(route.query.code.toString())
+  router.replace({ query: undefined })
 }
 </script>
 
