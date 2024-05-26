@@ -42,3 +42,15 @@ export const ResetPassword = async (url: string, credentials: ResetPasswordCrede
 export const RetrieveAuthUser = async () => {
   return await axios.get('/api/user')
 }
+
+export const GoogleRedirect = async () => {
+  return await axios.get('/api/auth/google/redirect')
+}
+
+export const GoogleCallback = async (code: string) => {
+  return await axios.get('/api/auth/google/callback', {
+    params: {
+      code: code
+    }
+  })
+}
