@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { GoogleCallback, VerifyEmail } from '@/services/api/auth'
+import { useUserStore } from '@/stores/UserStore'
+import { GoogleCallback, RetrieveAuthUser, VerifyEmail } from '@/services/api/auth'
 
 import PageHeader from '@/components/shared/PageHeader.vue'
 import PageModal from '@/components/shared/PageModal.vue'
@@ -20,6 +21,7 @@ import ResendInstructions from '@/components/landing/ResendInstructions.vue'
 
 const router = useRouter()
 const route = useRoute()
+const userStore = useUserStore()
 
 const modalIsOpen = ref(false)
 let modalContent = ref<string | null>(null)
@@ -77,8 +79,13 @@ const setEmail = (value: string) => {
 const handleGoogleAuth = async (code: string) => {
   try {
     await GoogleCallback(code)
+
+    const { data } = await RetrieveAuthUser()
+    userStore.user = data
+
+    await router.push({ name: 'news-feed' })
   } catch (error: any) {
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -106,7 +113,11 @@ if (route.query.authuser && route.query.code) {
         :email="email"
       />
 
-      <activation-message v-if="modalContent === 'activation-message'" v-on:close="closeModal" />
+      <activation-message
+        v-if="modalContent === 'activation-message'"
+        v-on:close="closeModal"
+        v-on:switch="openModal"
+      />
 
       <login-form v-if="modalContent === 'login'" v-on:close="closeModal" v-on:switch="openModal" />
 

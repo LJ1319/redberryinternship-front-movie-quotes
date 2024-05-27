@@ -11,7 +11,7 @@ const handleGoogleRedirect = async () => {
     const { data } = await GoogleRedirect()
     window.location.replace(data)
   } catch (error: any) {
-    console.log(error)
+    console.error(error)
   }
 }
 </script>

@@ -16,7 +16,7 @@ const onSubmit = async () => {
     await ResendVerification({ email: props.email })
     emit('switch', 'activation-instructions')
   } catch (error: any) {
-    console.log(error)
+    console.error(error)
   }
 }
 </script>

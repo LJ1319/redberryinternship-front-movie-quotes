@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/stores/UserStore'
+import { setCookie } from '@/utils/helpers'
 
-const i18nLocale = useI18n()
-// console.log(i18nLocale.locale.value)
+const userStore = useUserStore()
+
+userStore.$subscribe((mutation, state) => {
+  setCookie('user', JSON.stringify(state.user), 30)
+})
 </script>
 
 <template>
