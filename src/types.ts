@@ -25,3 +25,9 @@ export type ResetPasswordCredentials = {
   password: string
   password_confirmation: string
 }
+
+export type User = {
+  id: number
+  username: string
+  email: string
+}

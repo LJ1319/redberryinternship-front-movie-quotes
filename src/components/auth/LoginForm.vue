@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/UserStore'
 import { ErrorMessage, Field, useForm } from 'vee-validate'
 import type { LoginCredentials } from '@/types'
-import { Login } from '@/services/api/auth'
+import { Login, RetrieveAuthUser } from '@/services/api/auth'
 
 import FormGroup from '@/components/base/form/FormGroup.vue'
 import GoogleButton from '@/components/base/buttons/GoogleButton.vue'
@@ -13,11 +15,19 @@ const emit = defineEmits<{
   switch: [content: string]
 }>()
 
+const router = useRouter()
+const userStore = useUserStore()
+
 const { handleSubmit, setFieldError, resetField } = useForm<LoginCredentials>()
 
 const onSubmit = handleSubmit(async (values: LoginCredentials) => {
   try {
     await Login(values)
+
+    const { data } = await RetrieveAuthUser()
+    userStore.user = data
+
+    await router.push({ name: 'news-feed' })
   } catch (error: any) {
     setFieldError('email', error.response.data.message)
     resetField('password', { value: '' })

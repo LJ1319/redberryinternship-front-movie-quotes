@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import MessageContainer from '@/components/shared/MessageContainer.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
+
+const emit = defineEmits<{
+  switch: [content: string]
+}>()
 </script>
 
 <template>
@@ -11,11 +15,11 @@ import IconCheck from '@/components/icons/IconCheck.vue'
     </div>
 
     <p class="text-white">Your account has been activated.</p>
-    <router-link
-      to="feed"
-      class="flex h-10 w-72 items-center justify-center rounded bg-red text-white lg:w-full"
+    <button
+      v-on:click="emit('switch', 'login')"
+      class="h-10 w-72 rounded bg-red text-white lg:w-full"
     >
       Go to news feed
-    </router-link>
+    </button>
   </message-container>
 </template>
