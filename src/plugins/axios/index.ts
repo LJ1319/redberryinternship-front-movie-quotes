@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
-
+import { defaultLocale } from '@/plugins/i18n'
 import { useUserStore } from '@/stores/UserStore'
 import { InitializeCSRFProtection } from '@/services/api/auth'
 import { getCookie, setCookie } from '@/utils/helpers'
@@ -16,6 +16,12 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async function (config) {
+    const locale: string = getCookie('locale') ?? defaultLocale
+
+    if (config.url?.includes('api') && !config.url?.includes(`api/${locale}`)) {
+      config.url = config.url.replace('api', `api/${locale}`)
+    }
+
     if (config.method === 'post') {
       await InitializeCSRFProtection()
     }
@@ -33,7 +39,7 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const status = error.response.status
-    const locale: string = getCookie('locale')
+    const locale: string = getCookie('locale') ?? defaultLocale
     const userStore = useUserStore()
 
     if (status === 401) {

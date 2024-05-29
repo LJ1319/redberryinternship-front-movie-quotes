@@ -1,7 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { defaultLocale } from '@/plugins/i18n'
 import { useUserStore } from '@/stores/UserStore'
 import { getCookie } from '@/utils/helpers'
-import { defaultLocale } from '@/plugins/i18n'
+
+const locale = getCookie('locale')
+
+let currentLocale = defaultLocale
+if (locale) {
+  currentLocale = locale
+}
 
 import LandingPage from '@/pages/LandingPage.vue'
 import NewsFeedPage from '@/pages/NewsFeedPage.vue'
@@ -11,7 +18,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: `/${defaultLocale}`
+      redirect: `/${currentLocale}`
     },
     {
       path: '/:locale',
@@ -38,7 +45,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const locale: string = getCookie('locale')
   const userStore = useUserStore()
 
   if (to.meta.requiresAuth && !userStore.user) {

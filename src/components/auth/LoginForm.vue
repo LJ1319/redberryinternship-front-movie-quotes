@@ -84,7 +84,11 @@ const onSubmit = handleSubmit(async (values: LoginCredentials) => {
           <ErrorMessage name="remember" class="text-sm text-red-500" />
         </div>
 
-        <button v-on:click.stop="emit('switch', 'forgot')" class="text-blue underline">
+        <button
+          type="button"
+          v-on:click.stop="emit('switch', 'forgot')"
+          class="text-blue underline"
+        >
           Forgot password
         </button>
       </div>
