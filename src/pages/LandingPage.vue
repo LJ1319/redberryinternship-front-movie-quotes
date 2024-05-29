@@ -18,9 +18,11 @@ import ActivationMessage from '@/components/landing/ActivationMessage.vue'
 import ResetInstructions from '@/components/landing/ResetInstructions.vue'
 import ResetMessage from '@/components/landing/ResetMessage.vue'
 import ResendInstructions from '@/components/landing/ResendInstructions.vue'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const route = useRoute()
+const { locale } = useI18n()
 const userStore = useUserStore()
 
 const modalIsOpen = ref(false)
@@ -83,7 +85,7 @@ const handleGoogleAuth = async (code: string) => {
     const { data } = await RetrieveAuthUser()
     userStore.user = data
 
-    await router.push({ name: 'news-feed' })
+    await router.push({ name: 'news-feed', params: { locale: locale.value } })
   } catch (error: any) {
     console.error(error)
   }
@@ -169,16 +171,16 @@ if (route.query.authuser && route.query.code) {
       ></div>
 
       <div
-        class="mx-auto mt-28 flex max-w-72 flex-col items-center justify-center gap-8 lg:max-w-2xl"
+        class="mx-auto mt-0 flex max-w-72 flex-col items-center justify-center gap-8 lg:max-w-2xl"
       >
         <h1 class="z-10 text-center text-2xl font-bold text-gold lg:text-6xl lg:leading-[6rem]">
-          Find any quote in millions of movie lines
+          {{ $t('title') }}
         </h1>
         <button
           v-on:click.stop="openModal('signup')"
           class="z-10 h-10 max-w-32 rounded bg-red px-4 text-white lg:h-12 lg:max-w-36 lg:text-xl"
         >
-          Get Started
+          {{ $t('get-started') }}
         </button>
       </div>
 

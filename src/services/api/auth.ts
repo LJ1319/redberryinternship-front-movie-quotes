@@ -11,6 +11,10 @@ export const InitializeCSRFProtection = async () => {
   return await axios.get('/sanctum/csrf-cookie')
 }
 
+export const SyncLocale = async (locale: string) => {
+  return await axios.get(`/api/${locale}/locale`)
+}
+
 export const Signup = async (credentials: SignupCredentials) => {
   return await axios.post('/api/signup', credentials)
 }

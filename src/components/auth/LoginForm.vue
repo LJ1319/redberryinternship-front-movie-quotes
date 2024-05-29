@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/UserStore'
 import { ErrorMessage, Field, useForm } from 'vee-validate'
 import type { LoginCredentials } from '@/types'
@@ -17,6 +18,7 @@ const emit = defineEmits<{
 
 const router = useRouter()
 const userStore = useUserStore()
+const { locale } = useI18n()
 
 const { handleSubmit, setFieldError, resetField } = useForm<LoginCredentials>()
 
@@ -27,7 +29,7 @@ const onSubmit = handleSubmit(async (values: LoginCredentials) => {
     const { data } = await RetrieveAuthUser()
     userStore.user = data
 
-    await router.push({ name: 'news-feed' })
+    await router.push({ name: 'news-feed', params: { locale: locale.value } })
   } catch (error: any) {
     setFieldError('email', error.response.data.message)
     resetField('password', { value: '' })

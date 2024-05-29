@@ -3,7 +3,7 @@ import router from '@/router'
 
 import { useUserStore } from '@/stores/UserStore'
 import { InitializeCSRFProtection } from '@/services/api/auth'
-import { setCookie } from '@/utils/helpers'
+import { getCookie, setCookie } from '@/utils/helpers'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -33,16 +33,17 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const status = error.response.status
+    const locale: string = getCookie('locale')
     const userStore = useUserStore()
 
     if (status === 401) {
       setCookie('user', JSON.stringify({ user: null }), 30)
       userStore.user = null
-      await router.replace({ name: 'landing' })
+      await router.push({ name: 'landing', params: { locale: locale } })
     }
 
     if (status === 403 || status === 404 || status === 500) {
-      await router.replace({ name: 'error', query: { status: status } })
+      await router.push({ name: 'error', params: { locale: locale }, query: { status: status } })
     }
 
     return Promise.reject(error)

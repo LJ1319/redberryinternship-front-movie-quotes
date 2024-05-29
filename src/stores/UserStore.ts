@@ -7,10 +7,10 @@ type StateShape = {
 }
 
 let localUser: null | User = null
-const cookie: string = getCookie('user')
+const userCookie: string = getCookie('user')
 
-if (cookie) {
-  localUser = JSON.parse(cookie)
+if (userCookie) {
+  localUser = JSON.parse(userCookie)
 }
 
 export const useUserStore = defineStore('user', {
