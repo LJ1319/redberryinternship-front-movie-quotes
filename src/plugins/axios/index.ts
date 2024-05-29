@@ -1,9 +1,9 @@
 import axios from 'axios'
 import router from '@/router'
-
+import { defaultLocale } from '@/plugins/i18n'
 import { useUserStore } from '@/stores/UserStore'
 import { InitializeCSRFProtection } from '@/services/api/auth'
-import { setCookie } from '@/utils/helpers'
+import { getCookie, setCookie } from '@/utils/helpers'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -16,6 +16,12 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async function (config) {
+    const locale: string = getCookie('locale') ?? defaultLocale
+
+    if (config.url?.includes('api') && !config.url?.includes(`api/${locale}`)) {
+      config.url = config.url.replace('api', `api/${locale}`)
+    }
+
     if (config.method === 'post') {
       await InitializeCSRFProtection()
     }
@@ -33,16 +39,17 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const status = error.response.status
+    const locale: string = getCookie('locale') ?? defaultLocale
     const userStore = useUserStore()
 
     if (status === 401) {
       setCookie('user', JSON.stringify({ user: null }), 30)
       userStore.user = null
-      await router.replace({ name: 'landing' })
+      await router.push({ name: 'landing', params: { locale: locale } })
     }
 
     if (status === 403 || status === 404 || status === 500) {
-      await router.replace({ name: 'error', query: { status: status } })
+      await router.push({ name: 'error', params: { locale: locale }, query: { status: status } })
     }
 
     return Promise.reject(error)

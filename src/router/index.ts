@@ -1,27 +1,45 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { defaultLocale } from '@/plugins/i18n'
 import { useUserStore } from '@/stores/UserStore'
+import { getCookie } from '@/utils/helpers'
+
+const locale = getCookie('locale')
+
+let currentLocale = defaultLocale
+if (locale) {
+  currentLocale = locale
+}
 
 import LandingPage from '@/pages/LandingPage.vue'
 import NewsFeedPage from '@/pages/NewsFeedPage.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'landing',
-      component: LandingPage,
-      meta: {
-        requiresAuth: false
-      }
+      redirect: `/${currentLocale}`
     },
     {
-      path: '/news-feed',
-      name: 'news-feed',
-      component: NewsFeedPage,
-      meta: {
-        requiresAuth: true
-      }
+      path: '/:locale',
+      children: [
+        {
+          path: '',
+          name: 'landing',
+          component: LandingPage,
+          meta: {
+            requiresAuth: false
+          }
+        },
+        {
+          path: 'news-feed',
+          name: 'news-feed',
+          component: NewsFeedPage,
+          meta: {
+            requiresAuth: true
+          }
+        }
+      ]
     }
   ]
 })
@@ -31,13 +49,15 @@ router.beforeEach((to) => {
 
   if (to.meta.requiresAuth && !userStore.user) {
     return {
-      name: 'landing'
+      name: 'landing',
+      params: { locale: locale }
     }
   }
 
   if (!to.meta.requiresAuth && userStore.user) {
     return {
-      name: 'news-feed'
+      name: 'news-feed',
+      params: { locale: locale }
     }
   }
 })
