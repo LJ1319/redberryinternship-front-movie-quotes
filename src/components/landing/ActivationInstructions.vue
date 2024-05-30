@@ -11,18 +11,18 @@ defineProps<{
   <message-container>
     <div class="flex flex-col items-center justify-center gap-4">
       <icon-mail-sent />
-      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">Thank you!</h1>
+      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">{{ $t('thanks') }}!</h1>
     </div>
 
     <p class="text-white">
-      Please check your email and follow the instructions to activate your account.
+      {{ $t('activation-instructions') }}
     </p>
     <a
       :href="`https://www.${email ?? 'gmail.com'}`"
       target="_blank"
-      class="flex h-10 w-72 items-center justify-center rounded bg-red text-white lg:w-full"
+      class="flex h-10 w-72 items-center justify-center rounded bg-red capitalize text-white lg:w-full"
     >
-      Go to my email
+      {{ $t('go-to-mail') }}
     </a>
   </message-container>
 </template>

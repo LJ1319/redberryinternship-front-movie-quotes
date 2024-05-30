@@ -37,23 +37,25 @@ const onSubmit = handleSubmit(async (values: ForgotPasswordCredentials) => {
 
   <div class="flex flex-col gap-10">
     <div class="flex flex-col gap-3 text-center">
-      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">Forgot password?</h1>
+      <h1 class="text-2xl font-medium capitalize text-white lg:text-[2rem]">
+        {{ $t('forgot-password') }}?
+      </h1>
       <h2 class="text-gray-500">
-        Enter the email and we’ll send an email with instructions to reset your password
+        {{ $t('forgot-title') }}
       </h2>
     </div>
 
     <form v-on:submit="onSubmit" class="flex flex-col gap-6">
       <form-group
         name="email"
-        label="Email"
+        label="email-label"
         rules="required|email"
         type="email"
-        placeholder="Enter your email"
+        placeholder="email-placeholder"
       />
 
-      <div class="flex flex-col gap-4">
-        <primary-button action="Send instructions" />
+      <div class="flex flex-col gap-4 capitalize">
+        <primary-button action="send-instructions" />
       </div>
     </form>
 
@@ -62,7 +64,7 @@ const onSubmit = handleSubmit(async (values: ForgotPasswordCredentials) => {
       class="flex items-center justify-center gap-4 text-gray-500"
     >
       <icon-arrow-left />
-      Back to log in
+      {{ $t('back-to-login') }}
     </button>
   </div>
 </template>

@@ -11,15 +11,15 @@ const emit = defineEmits<{
   <message-container>
     <div class="flex flex-col items-center justify-center gap-4">
       <icon-check />
-      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">Success!</h1>
+      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">{{ $t('success') }}!</h1>
     </div>
 
-    <p class="text-white">Your password changed successfully</p>
+    <p class="text-white">{{ $t('reset-message') }}</p>
     <button
       v-on:click="emit('switch', 'login')"
       class="h-10 w-72 rounded bg-red text-white lg:w-full"
     >
-      Log in
+      {{ $t('login') }}
     </button>
   </message-container>
 </template>

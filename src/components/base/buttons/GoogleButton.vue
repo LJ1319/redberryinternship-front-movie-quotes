@@ -20,9 +20,9 @@ const handleGoogleRedirect = async () => {
   <button
     v-on:click="handleGoogleRedirect"
     type="button"
-    class="flex h-10 w-full items-center justify-center gap-2 rounded border border-white text-white"
+    class="flex h-10 w-full items-center justify-center gap-2 rounded border border-white capitalize text-white"
   >
     <icon-google />
-    {{ action }} with google
+    {{ $t(action) }} {{ $t('google') }}
   </button>
 </template>

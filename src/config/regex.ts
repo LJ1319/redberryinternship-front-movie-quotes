@@ -1,2 +1,2 @@
-export const alphaNumRegex = /^[a-z0-9]+$/i
+export const alphaNumRegex = /^[a-z0-9]+$/
 export const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i

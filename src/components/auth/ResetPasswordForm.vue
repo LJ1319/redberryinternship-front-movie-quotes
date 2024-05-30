@@ -47,31 +47,33 @@ const onSubmit = handleSubmit(async (values: ResetPasswordCredentials) => {
 
   <div class="flex flex-col gap-10">
     <div class="flex flex-col gap-3 text-center">
-      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">Create new password</h1>
+      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">
+        {{ $t('create-new-password') }}
+      </h1>
       <h2 class="text-gray-500">
-        Your new password must be different from previous used passwords
+        {{ $t('new-password-hint') }}
       </h2>
     </div>
 
     <form v-on:submit="onSubmit" class="flex flex-col gap-6">
       <form-group
         name="password"
-        label="Password"
+        label="password-label"
         rules="required|min:8|max:15|alpha_num"
         type="password"
-        placeholder="Password"
+        placeholder="password-placeholder"
       />
 
       <form-group
         name="password_confirmation"
-        label="Confirm password"
+        label="password-confirm-label"
         rules="required|confirmed:password"
         type="password"
-        placeholder="Password"
+        placeholder="password-confirm-placeholder"
       />
 
       <div class="flex flex-col gap-4">
-        <primary-button action="Reset password" />
+        <primary-button action="reset-password" />
       </div>
     </form>
 
@@ -80,7 +82,7 @@ const onSubmit = handleSubmit(async (values: ResetPasswordCredentials) => {
       class="flex items-center justify-center gap-4 text-gray-500"
     >
       <icon-arrow-left />
-      Back to log in
+      {{ $t('back-to-login') }}
     </button>
   </div>
 </template>

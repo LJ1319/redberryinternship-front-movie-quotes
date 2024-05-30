@@ -1,24 +1,24 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/UserStore'
 import { GoogleCallback, RetrieveAuthUser, VerifyEmail } from '@/services/api/auth'
 
 import PageHeader from '@/components/shared/PageHeader.vue'
 import PageModal from '@/components/shared/PageModal.vue'
-import PageFooter from '@/components/shared/PageFooter.vue'
 
+import PageFooter from '@/components/shared/PageFooter.vue'
 import SignupForm from '@/components/auth/SignupForm.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
 import ForgotPasswordForm from '@/components/auth/ForgotPasswordForm.vue'
-import ResetPasswordForm from '@/components/auth/ResetPasswordForm.vue'
 
+import ResetPasswordForm from '@/components/auth/ResetPasswordForm.vue'
 import ActivationInstructions from '@/components/landing/ActivationInstructions.vue'
 import ActivationMessage from '@/components/landing/ActivationMessage.vue'
 import ResetInstructions from '@/components/landing/ResetInstructions.vue'
 import ResetMessage from '@/components/landing/ResetMessage.vue'
 import ResendInstructions from '@/components/landing/ResendInstructions.vue'
-import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const route = useRoute()
@@ -171,14 +171,14 @@ if (route.query.authuser && route.query.code) {
       ></div>
 
       <div
-        class="mx-auto mt-0 flex max-w-72 flex-col items-center justify-center gap-8 lg:max-w-2xl"
+        class="mx-auto mt-28 flex max-w-72 flex-col items-center justify-center gap-8 lg:mt-24 lg:max-w-2xl"
       >
         <h1 class="z-10 text-center text-2xl font-bold text-gold lg:text-6xl lg:leading-[6rem]">
           {{ $t('title') }}
         </h1>
         <button
           v-on:click.stop="openModal('signup')"
-          class="z-10 h-10 max-w-32 rounded bg-red px-4 text-white lg:h-12 lg:max-w-36 lg:text-xl"
+          class="z-10 h-10 max-w-32 rounded bg-red px-4 capitalize text-white lg:h-12 lg:max-w-36 lg:text-xl"
         >
           {{ $t('get-started') }}
         </button>
@@ -207,10 +207,10 @@ if (route.query.authuser && route.query.code) {
 
           <div>
             <p class="font-montserrat text-xl font-bold text-white lg:text-6xl">
-              “You have to leave something behind to go forward!”
+              “{{ $t('interstellar-quote') }}”
             </p>
             <p class="l g:text-3xl mt-4 font-montserrat font-bold text-zinc-300">
-              Interstellar, 2014
+              {{ $t('interstellar-movie') }}, 2014
             </p>
           </div>
         </div>
@@ -253,11 +253,10 @@ if (route.query.authuser && route.query.code) {
 
           <div>
             <p class="font-montserrat text-xl font-bold text-white lg:text-6xl">
-              “I think we’re just gonna have to be secretly in love with each other and leave it to
-              that...”
+              “{{ $t('royal-quote') }}”
             </p>
             <p class="mt-4 font-montserrat font-bold text-zinc-300 lg:text-3xl">
-              The Royal Tenenbaums, 2001
+              {{ $t('royal-movie') }}, 2001
             </p>
           </div>
         </div>
@@ -300,12 +299,10 @@ if (route.query.authuser && route.query.code) {
 
           <div>
             <p class="font-montserrat text-xl font-bold text-white lg:text-6xl">
-              “End? No, the journey doesn't end here. Death is just another path, one that we all
-              must take. The grey rain-curtain of this world rolls back, and all turns to silver
-              glass, and then you see it.”
+              “{{ $t('lotr-quote') }}”
             </p>
             <p class="mt-4 font-montserrat font-bold text-zinc-300 lg:text-3xl">
-              Return of the King, 2003
+              {{ $t('lotr-movie') }}, 2003
             </p>
           </div>
         </div>

@@ -39,52 +39,54 @@ const onSubmit = handleSubmit(async (values: SignupCredentials) => {
 
   <div class="flex flex-col gap-10">
     <div class="flex flex-col gap-3 text-center">
-      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">Create an account</h1>
-      <h2 class="text-gray-500">Start your journey!</h2>
+      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">{{ $t('create-account') }}</h1>
+      <h2 class="text-gray-500">{{ $t('start-journey') }}!</h2>
     </div>
 
     <form v-on:submit="onSubmit" class="flex flex-col gap-6">
       <form-group
         name="username"
-        label="Name"
+        label="name-label"
         rules="required|min:3|max:15|alpha_num"
         type="text"
-        placeholder="Enter your name"
+        placeholder="name-placeholder"
       />
 
       <form-group
         name="email"
-        label="Email"
+        label="email-label"
         rules="required|email"
         type="email"
-        placeholder="Enter your email"
+        placeholder="email-placeholder"
       />
 
       <form-group
         name="password"
-        label="Password"
+        label="password-label"
         rules="required|min:8|max:15|alpha_num"
         type="password"
-        placeholder="Password"
+        placeholder="password-placeholder"
       />
 
       <form-group
         name="password_confirmation"
-        label="Confirm password"
+        label="password-confirm-label"
         rules="required|confirmed:password"
         type="password"
-        placeholder="Password"
+        placeholder="password-confirm-placeholder"
       />
 
       <div class="flex flex-col gap-4">
-        <primary-button action="Get started" />
-        <google-button action="Sign up" />
+        <primary-button action="get-started" />
+        <google-button action="signup" />
       </div>
     </form>
 
     <p class="text-center text-gray-500">
-      Already have an account?
-      <button v-on:click.stop="emit('switch', 'login')" class="text-blue underline">Log in</button>
+      {{ $t('already-user') }}?
+      <button v-on:click.stop="emit('switch', 'login')" class="capitalize text-blue underline">
+        {{ $t('login') }}
+      </button>
     </p>
   </div>
 </template>
