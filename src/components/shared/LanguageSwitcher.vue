@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { setLocale } from '@vee-validate/i18n'
 import { onClickOutside } from '@/composables/onClickOutside'
 
 import IconCaretDown from '@/components/icons/IconCaretDown.vue'
@@ -19,8 +20,9 @@ const closeDropdown = () => {
 
 onClickOutside(dropdown.value, closeDropdown)
 
-const setLocale = (currentLocale: string) => {
+const setUserLocale = (currentLocale: string) => {
   locale.value = currentLocale
+  setLocale(currentLocale)
   closeDropdown()
 }
 </script>
@@ -43,7 +45,7 @@ const setLocale = (currentLocale: string) => {
         v-for="locale in availableLocales"
         :key="`locale-${locale}`"
         :value="locale"
-        v-on:click="setLocale(locale)"
+        v-on:click="setUserLocale(locale)"
         class="cursor-pointer border-b border-light-mirage p-1 text-white last-of-type:border-0"
       >
         {{ locale === 'en' ? 'Eng' : 'ქარ' }}

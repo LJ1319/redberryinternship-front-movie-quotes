@@ -46,25 +46,25 @@ const onSubmit = handleSubmit(async (values: LoginCredentials) => {
 
   <div class="flex flex-col gap-10">
     <div class="flex flex-col gap-3 text-center">
-      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">Log in to your account</h1>
-      <h2 class="text-gray-500">Welcome back! Please enter your details.</h2>
+      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">{{ $t('enter-account') }}</h1>
+      <h2 class="text-gray-500">{{ $t('welcome-back') }}.</h2>
     </div>
 
     <form v-on:submit="onSubmit" class="flex flex-col gap-6">
       <form-group
         name="email"
-        label="Email"
+        label="email-label"
         rules="required|email"
         type="email"
-        placeholder="Enter your email"
+        placeholder="email-placeholder"
       />
 
       <form-group
         name="password"
-        label="Password"
+        label="password-label"
         rules="required|min:8|max:15|alpha_num"
         type="password"
-        placeholder="Password"
+        placeholder="password-placeholder"
       />
 
       <div class="flex justify-between">
@@ -79,7 +79,7 @@ const onSubmit = handleSubmit(async (values: LoginCredentials) => {
               class="h-4 w-4"
             />
 
-            <label for="remember" class="text-white">Remember me</label>
+            <label for="remember" class="text-white">{{ $t('remember') }}</label>
           </div>
           <ErrorMessage name="remember" class="text-sm text-red-500" />
         </div>
@@ -89,20 +89,20 @@ const onSubmit = handleSubmit(async (values: LoginCredentials) => {
           v-on:click.stop="emit('switch', 'forgot')"
           class="text-blue underline"
         >
-          Forgot password
+          {{ $t('forgot-password') }}
         </button>
       </div>
 
       <div class="flex flex-col gap-4">
-        <primary-button action="Sign in" />
-        <google-button action="Sign in" />
+        <primary-button action="login" />
+        <google-button action="login" />
       </div>
     </form>
 
     <p class="text-center text-gray-500">
-      Don't have an account?
-      <button v-on:click.stop="emit('switch', 'signup')" class="text-blue underline">
-        Sign up
+      {{ $t('no-account') }}?
+      <button v-on:click.stop="emit('switch', 'signup')" class="capitalize text-blue underline">
+        {{ $t('signup') }}
       </button>
     </p>
   </div>

@@ -25,13 +25,15 @@ const onSubmit = async () => {
   <message-container>
     <div class="flex flex-col items-center justify-center gap-4">
       <icon-time-expired />
-      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">Link expired?</h1>
+      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">{{ $t('link-expired') }}?</h1>
     </div>
 
-    <p class="text-white">Verification link expired due to inactivity</p>
+    <p class="text-white">{{ $t('resend-instructions') }}</p>
 
     <form v-on:submit.prevent="onSubmit" class="w-full">
-      <button class="h-10 w-72 rounded bg-red text-white lg:w-full">Request another link</button>
+      <button class="h-10 w-72 rounded bg-red text-white lg:w-full">
+        {{ $t('link-request') }}
+      </button>
     </form>
   </message-container>
 </template>

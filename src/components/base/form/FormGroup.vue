@@ -26,8 +26,11 @@ const validatedClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-
 
 <template>
   <div class="relative flex flex-col gap-2">
-    <label :for="name" class="text-white after:ml-1 after:text-red-500 after:content-['*']">
-      {{ label }}
+    <label
+      :for="name"
+      class="capitalize text-white after:ml-1 after:text-red-500 after:content-['*']"
+    >
+      {{ $t(label) }}
     </label>
 
     <Field v-slot="{ field, meta, errors }" :name="name" :rules="rules" validate-on-input>
@@ -35,9 +38,9 @@ const validatedClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-
         v-bind="field"
         :type="isPassword ? 'password' : 'text'"
         :id="name"
-        :placeholder="placeholder"
+        :placeholder="$t(placeholder)"
         :class="[errors.length > 0 && errorClass, meta.dirty && meta.valid && validatedClass]"
-        class="peer h-10 rounded bg-gray-300 px-4 focus:outline-none focus:ring-4 focus:ring-gray-400"
+        class="placeholder peer h-10 rounded bg-gray-300 px-4 focus:outline-none focus:ring-4 focus:ring-gray-400"
       />
 
       <div class="absolute right-4 top-11 flex items-center gap-2">

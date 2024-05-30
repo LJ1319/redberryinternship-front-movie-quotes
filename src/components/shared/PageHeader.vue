@@ -40,13 +40,13 @@ const handleLogOut = async () => {
         <div v-if="!userStore.user" class="z-50 flex gap-3 lg:gap-4">
           <button
             v-on:click.stop="emit('open', 'signup')"
-            class="flex h-8 min-w-20 items-center justify-center rounded bg-red px-2 text-white lg:h-10 lg:w-28 lg:px-4"
+            class="flex h-8 min-w-20 items-center justify-center rounded bg-red px-2 capitalize text-white lg:h-10 lg:min-w-28 lg:px-4"
           >
             {{ $t('signup') }}
           </button>
           <button
             v-on:click.stop="emit('open', 'login')"
-            class="flex h-8 min-w-[4.5rem] items-center justify-center rounded border border-white px-2 text-white lg:h-10 lg:w-24 lg:px-4"
+            class="flex h-8 min-w-[4.5rem] items-center justify-center rounded border border-white px-2 capitalize text-white lg:h-10 lg:w-24 lg:px-4"
           >
             {{ $t('login') }}
           </button>
@@ -55,7 +55,7 @@ const handleLogOut = async () => {
         <button
           v-if="userStore.user"
           v-on:click="handleLogOut"
-          class="flex h-8 min-w-[4.5rem] items-center justify-center rounded border border-white px-2 text-white lg:h-10 lg:w-24 lg:px-4"
+          class="flex h-8 min-w-[4.5rem] items-center justify-center rounded border border-white px-2 capitalize text-white lg:h-10 lg:w-24 lg:px-4"
         >
           {{ $t('logout') }}
         </button>

@@ -2,6 +2,7 @@
 import { watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { setLocale } from '@vee-validate/i18n'
 import { useUserStore } from '@/stores/UserStore'
 import { getCookie, setCookie } from '@/utils/helpers'
 
@@ -13,12 +14,14 @@ const userStore = useUserStore()
 const localeCookie: string = getCookie('locale')
 
 const initLocale = () => {
+  setLocale(locale.value)
   setCookie('locale', locale.value, 30)
   router.replace({ params: { locale: locale.value }, query: { ...route.query } })
 }
 
 if (localeCookie) {
   locale.value = localeCookie
+  setLocale(locale.value)
 } else {
   initLocale()
 }
