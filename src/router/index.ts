@@ -4,14 +4,16 @@ import { useUserStore } from '@/stores/UserStore'
 import { getCookie } from '@/utils/helpers'
 
 const locale = getCookie('locale')
-
 let currentLocale = defaultLocale
 if (locale) {
   currentLocale = locale
 }
 
 import LandingPage from '@/pages/LandingPage.vue'
+import MainLayout from '@/layouts/MainLayout.vue'
+import ProfilePage from '@/pages/ProfilePage.vue'
 import NewsFeedPage from '@/pages/NewsFeedPage.vue'
+import MyMoviesPage from '@/pages/MyMoviesPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -32,9 +34,25 @@ const router = createRouter({
           }
         },
         {
-          path: 'news-feed',
-          name: 'news-feed',
-          component: NewsFeedPage,
+          path: '',
+          component: MainLayout,
+          children: [
+            {
+              path: 'profile',
+              name: 'profile',
+              component: ProfilePage
+            },
+            {
+              path: 'news-feed',
+              name: 'news-feed',
+              component: NewsFeedPage
+            },
+            {
+              path: 'my-movies',
+              name: 'my-movies',
+              component: MyMoviesPage
+            }
+          ],
           meta: {
             requiresAuth: true
           }

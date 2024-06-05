@@ -24,8 +24,12 @@ export default {
         clg: '10px'
       },
       colors: {
-        'light-mirage': '#222030',
-        'dark-mirage': '#181624',
+        mirage: '#24222f',
+        'mirage-light': '#222030',
+        'mirage-medium': '#181624',
+        'mirage-dark': '#11101A',
+        'neutral-light': '#9C9A9A',
+        'neutral-dark': '#373740',
         gold: '#DDCCAA',
         red: {
           DEFAULT: '#E31221'

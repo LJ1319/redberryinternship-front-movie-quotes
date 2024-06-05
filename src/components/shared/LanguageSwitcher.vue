@@ -39,14 +39,14 @@ const setUserLocale = (currentLocale: string) => {
     <ul
       v-if="dropdownIsOpen"
       ref="dropdown"
-      class="absolute top-10 w-16 rounded border border-light-mirage bg-dark-mirage"
+      class="absolute top-10 w-16 rounded border border-mirage-light bg-mirage-medium"
     >
       <li
         v-for="locale in availableLocales"
         :key="`locale-${locale}`"
         :value="locale"
         v-on:click="setUserLocale(locale)"
-        class="cursor-pointer border-b border-light-mirage p-1 text-white last-of-type:border-0"
+        class="cursor-pointer border-b border-mirage-light p-1 text-white last-of-type:border-0"
       >
         {{ locale === 'en' ? 'Eng' : 'ქარ' }}
       </li>

@@ -2,18 +2,21 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/stores/UserStore'
-import { GoogleCallback, RetrieveAuthUser, VerifyEmail } from '@/services/api/auth'
 
+import { useUserStore } from '@/stores/UserStore'
+import { GoogleCallback, VerifyEmail } from '@/services/api/auth'
+import { RetrieveAuthUser } from '@/services/api/user'
+
+import IconSpinner from '@/components/icons/IconSpinner.vue'
 import PageHeader from '@/components/shared/PageHeader.vue'
 import PageModal from '@/components/shared/PageModal.vue'
-
 import PageFooter from '@/components/shared/PageFooter.vue'
+
 import SignupForm from '@/components/auth/SignupForm.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
 import ForgotPasswordForm from '@/components/auth/ForgotPasswordForm.vue'
-
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm.vue'
+
 import ActivationInstructions from '@/components/landing/ActivationInstructions.vue'
 import ActivationMessage from '@/components/landing/ActivationMessage.vue'
 import ResetInstructions from '@/components/landing/ResetInstructions.vue'
@@ -25,6 +28,7 @@ const route = useRoute()
 const { locale } = useI18n()
 const userStore = useUserStore()
 
+const isLoading = ref(false)
 const modalIsOpen = ref(false)
 let modalContent = ref<string | null>(null)
 let url = ref('')
@@ -80,12 +84,14 @@ const setEmail = (value: string) => {
 
 const handleGoogleAuth = async (code: string) => {
   try {
+    isLoading.value = true
     await GoogleCallback(code)
 
     const { data } = await RetrieveAuthUser()
     userStore.user = data
 
     await router.push({ name: 'news-feed', params: { locale: locale.value } })
+    isLoading.value = false
   } catch (error: any) {
     console.error(error)
   }
@@ -98,9 +104,17 @@ if (route.query.authuser && route.query.code) {
 </script>
 
 <template>
-  <page-header v-on:open="openModal" />
+  <div
+    v-if="isLoading"
+    style="background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%)"
+    class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center"
+  >
+    <icon-spinner class="z-50 animate-spin" />
+  </div>
 
-  <main>
+  <page-header v-if="!isLoading" v-on:open="openModal" />
+
+  <main v-if="!isLoading">
     <page-modal v-if="modalIsOpen" v-on:close="closeModal">
       <signup-form
         v-if="modalContent === 'signup'"

@@ -16,12 +16,15 @@ const localeCookie: string = getCookie('locale')
 const initLocale = () => {
   setLocale(locale.value)
   setCookie('locale', locale.value, 30)
+  document.documentElement.lang = locale.value
+
   router.replace({ params: { locale: locale.value }, query: { ...route.query } })
 }
 
 if (localeCookie) {
   locale.value = localeCookie
   setLocale(locale.value)
+  document.documentElement.lang = locale.value
 } else {
   initLocale()
 }

@@ -73,7 +73,7 @@ const onSubmit = handleSubmit(async (values: ResetPasswordCredentials) => {
       />
 
       <div class="flex flex-col gap-4">
-        <primary-button action="reset-password" />
+        <primary-button action="reset-password" class="h-10" />
       </div>
     </form>
 

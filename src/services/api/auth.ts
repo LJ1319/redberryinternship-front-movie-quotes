@@ -39,10 +39,6 @@ export const ResetPassword = async (url: string, credentials: ResetPasswordCrede
   return await axios.post(url, credentials)
 }
 
-export const RetrieveAuthUser = async () => {
-  return await axios.get('/api/user')
-}
-
 export const GoogleRedirect = async () => {
   return await axios.get('/api/auth/google/redirect')
 }

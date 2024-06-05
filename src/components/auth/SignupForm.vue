@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import type { SignupCredentials } from '@/types'
 import { Signup } from '@/services/api/auth'
+import type { SignupCredentials } from '@/types'
 
 import FormGroup from '@/components/base/form/FormGroup.vue'
 import GoogleButton from '@/components/base/buttons/GoogleButton.vue'
@@ -46,10 +46,10 @@ const onSubmit = handleSubmit(async (values: SignupCredentials) => {
     <form v-on:submit="onSubmit" class="flex flex-col gap-6">
       <form-group
         name="username"
-        label="name-label"
+        label="username-label"
         rules="required|min:3|max:15|alpha_num"
         type="text"
-        placeholder="name-placeholder"
+        placeholder="username-placeholder"
       />
 
       <form-group
@@ -77,7 +77,7 @@ const onSubmit = handleSubmit(async (values: SignupCredentials) => {
       />
 
       <div class="flex flex-col gap-4">
-        <primary-button action="get-started" />
+        <primary-button action="get-started" class="h-10" />
         <google-button action="signup" />
       </div>
     </form>

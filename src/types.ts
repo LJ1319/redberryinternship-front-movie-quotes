@@ -30,4 +30,14 @@ export type User = {
   id: number
   username: string
   email: string
+  avatar: string
+  isGoogleUser: boolean
+}
+
+export type ProfileUpdateData = {
+  avatar?: string
+  username?: string
+  email?: string
+  password?: string
+  password_confirmation?: string
 }
