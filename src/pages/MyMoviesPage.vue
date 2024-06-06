@@ -1,3 +1,3 @@
 <script setup lang="ts"></script>
 
-<template>news feed</template>
+<template>my-movies</template>

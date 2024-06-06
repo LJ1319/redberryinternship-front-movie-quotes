@@ -18,9 +18,3 @@ export function getCookie(cName: string): string {
 
   return res
 }
-
-export function isObjEmpty(obj: Object) {
-  if (!obj) return
-
-  return JSON.stringify(obj) === '{}'
-}

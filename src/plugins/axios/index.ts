@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
+
 import { defaultLocale } from '@/plugins/i18n'
 import { useUserStore } from '@/stores/UserStore'
 import { InitializeCSRFProtection } from '@/services/api/auth'

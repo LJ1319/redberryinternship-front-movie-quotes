@@ -21,14 +21,14 @@ const toggleType = () => {
 }
 
 const errorClass = 'border border-red-500 focus:ring-0 focus:ring-opacity-0'
-const validatedClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-0'
+const validClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-0'
 </script>
 
 <template>
   <div class="relative flex flex-col gap-2">
     <label
       :for="name"
-      class="capitalize text-white after:ml-1 after:text-red-500 after:content-['*']"
+      class="w-max capitalize text-white after:ml-1 after:text-red-500 after:content-['*']"
     >
       {{ $t(label) }}
     </label>
@@ -39,8 +39,8 @@ const validatedClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-
         :type="isPassword ? 'password' : 'text'"
         :id="name"
         :placeholder="$t(placeholder)"
-        :class="[errors.length > 0 && errorClass, meta.dirty && meta.valid && validatedClass]"
-        class="placeholder peer h-10 rounded bg-gray-300 px-4 focus:outline-none focus:ring-4 focus:ring-gray-400"
+        :class="[errors.length > 0 && errorClass, meta.dirty && meta.valid && validClass]"
+        class="h-10 rounded bg-gray-300 px-4 focus:outline-none focus:ring-4 focus:ring-gray-400"
       />
 
       <div class="absolute right-4 top-11 flex items-center gap-2">

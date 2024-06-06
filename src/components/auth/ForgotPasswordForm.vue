@@ -55,7 +55,7 @@ const onSubmit = handleSubmit(async (values: ForgotPasswordCredentials) => {
       />
 
       <div class="flex flex-col gap-4 capitalize">
-        <primary-button action="send-instructions" />
+        <primary-button action="send-instructions" class="h-10" />
       </div>
     </form>
 

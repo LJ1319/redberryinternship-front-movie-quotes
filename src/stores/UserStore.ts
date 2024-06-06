@@ -3,7 +3,7 @@ import type { User } from '@/types'
 import { getCookie } from '@/utils/helpers'
 
 type StateShape = {
-  user: User | null
+  user: null | User
 }
 
 let localUser: null | User = null
@@ -14,9 +14,7 @@ if (userCookie) {
 }
 
 export const useUserStore = defineStore('user', {
-  state: (): StateShape => {
-    return {
-      user: localUser
-    }
-  }
+  state: (): StateShape => ({
+    user: localUser
+  })
 })

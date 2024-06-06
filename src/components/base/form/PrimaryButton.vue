@@ -5,5 +5,5 @@ defineProps<{
 </script>
 
 <template>
-  <button class="h-10 w-full rounded bg-red capitalize text-white">{{ $t(action) }}</button>
+  <button class="rounded bg-red capitalize text-white">{{ $t(action) }}</button>
 </template>

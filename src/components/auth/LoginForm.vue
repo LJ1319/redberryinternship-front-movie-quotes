@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/stores/UserStore'
 import { ErrorMessage, Field, useForm } from 'vee-validate'
+
+import { useUserStore } from '@/stores/UserStore'
+import { Login } from '@/services/api/auth'
+import { RetrieveAuthUser } from '@/services/api/user'
 import type { LoginCredentials } from '@/types'
-import { Login, RetrieveAuthUser } from '@/services/api/auth'
 
 import FormGroup from '@/components/base/form/FormGroup.vue'
 import GoogleButton from '@/components/base/buttons/GoogleButton.vue'
@@ -94,7 +96,7 @@ const onSubmit = handleSubmit(async (values: LoginCredentials) => {
       </div>
 
       <div class="flex flex-col gap-4">
-        <primary-button action="login" />
+        <primary-button action="login" class="h-10" />
         <google-button action="login" />
       </div>
     </form>

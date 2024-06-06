@@ -8,11 +8,11 @@ export default function veeValidate() {
   })
 
   defineRule('min', (value: string, [limit]: Array<number>) => {
-    return value.length >= limit
+    return value && value.length >= limit
   })
 
   defineRule('max', (value: string, [limit]: Array<number>) => {
-    return value.length <= limit
+    return value && value.length <= limit
   })
 
   defineRule('alpha_num', (value: string) => {
