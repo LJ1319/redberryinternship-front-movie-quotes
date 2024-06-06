@@ -9,11 +9,11 @@ if (locale) {
   currentLocale = locale
 }
 
-import LandingPage from '@/pages/LandingPage.vue'
-import MainLayout from '@/layouts/MainLayout.vue'
-import ProfilePage from '@/pages/ProfilePage.vue'
-import NewsFeedPage from '@/pages/NewsFeedPage.vue'
-import MyMoviesPage from '@/pages/MyMoviesPage.vue'
+const LandingPage = () => import('@/pages/LandingPage.vue')
+const MainLayout = () => import('@/layouts/MainLayout.vue')
+const ProfilePage = () => import('@/pages/ProfilePage.vue')
+const NewsFeedPage = () => import('@/pages/NewsFeedPage.vue')
+const MyMoviesPage = () => import('@/pages/MyMoviesPage.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),

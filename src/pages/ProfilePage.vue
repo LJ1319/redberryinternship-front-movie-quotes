@@ -30,25 +30,17 @@ const confirmModalIsOpen = ref(false)
 const successModalIsOpen = ref(false)
 
 const imageUrl = ref(user.value?.avatar)
-const image = ref(null)
-const imageUpdated = ref(false)
+const selectedImage = ref<File | null>(null)
 
 const handleImageUpload = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  if (input.files && input.files.length > 0) {
-    const file = input.files[0]
-    const reader = new FileReader()
-    reader.onload = (event: ProgressEvent<FileReader>) => {
-      const result = event.target?.result
-      if (result) {
-        imageUrl.value = result.toString()
-      }
-    }
-    reader.readAsDataURL(file)
+  const fileList = (event.target as HTMLInputElement).files
+
+  if (fileList && fileList.length) {
+    const file = fileList[0]
+    imageUrl.value = URL.createObjectURL(file)
+    selectedImage.value = file
 
     isEditing.value = true
-    imageUpdated.value = true
-
     setTimeout(() => {
       confirmModalIsOpen.value = true
     }, 750)
@@ -110,8 +102,8 @@ const onSubmit = handleSubmit(async (values: ProfileUpdateData) => {
     ...values
   }
 
-  if (imageUpdated.value) {
-    formData.avatar = imageUrl.value
+  if (selectedImage.value) {
+    formData.avatar = selectedImage.value
   }
 
   try {
@@ -152,7 +144,6 @@ const onSubmit = handleSubmit(async (values: ProfileUpdateData) => {
             {{ $t('upload-photo') }}
           </label>
           <input
-            ref="image"
             v-on:change="handleImageUpload"
             type="file"
             id="image"

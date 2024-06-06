@@ -35,7 +35,7 @@ export type User = {
 }
 
 export type ProfileUpdateData = {
-  avatar?: string
+  avatar?: File
   username?: string
   email?: string
   password?: string

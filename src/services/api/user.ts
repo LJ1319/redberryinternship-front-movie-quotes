@@ -6,5 +6,12 @@ export const RetrieveAuthUser = async () => {
 }
 
 export const UpdateUser = async (user: number | undefined, data: ProfileUpdateData) => {
-  return await axios.patch(`/api/users/${user}`, data)
+  return await axios.post(`/api/users/${user}`, data, {
+    params: {
+      _method: 'PATCH'
+    },
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
 }
