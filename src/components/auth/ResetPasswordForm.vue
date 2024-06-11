@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
+import { resetPassword } from '@/services/api/auth'
 import type { ResetPasswordCredentials } from '@/types'
-import { ResetPassword } from '@/services/api/auth'
 
-import FormGroup from '@/components/base/form/FormGroup.vue'
+import FormGroup from '@/components/auth/form/FormGroup.vue'
 import PrimaryButton from '@/components/base/form/PrimaryButton.vue'
 import IconClose from '@/components/icons/IconClose.vue'
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
@@ -23,7 +23,7 @@ const { handleSubmit, setFieldError, resetField } = useForm<ResetPasswordCredent
 
 const onSubmit = handleSubmit(async (values: ResetPasswordCredentials) => {
   try {
-    await ResetPassword(props.url, {
+    await resetPassword(props.url, {
       token: props.token,
       email: props.email,
       password: values.password,

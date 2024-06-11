@@ -4,8 +4,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 import { useUserStore } from '@/stores/UserStore'
-import { GoogleCallback, VerifyEmail } from '@/services/api/auth'
-import { RetrieveAuthUser } from '@/services/api/user'
+import { googleCallback, verifyEmail } from '@/services/api/auth'
+import { retrieveAuthUser } from '@/services/api/user'
 
 import IconSpinner from '@/components/icons/IconSpinner.vue'
 import PageHeader from '@/components/shared/PageHeader.vue'
@@ -44,11 +44,11 @@ const closeModal = () => {
   modalIsOpen.value = false
 }
 
-const verifyEmail = async (url: string) => {
+const handleVerifyEmail = async (url: string) => {
   try {
-    await VerifyEmail(url)
+    await verifyEmail(url)
     openModal('activation-message')
-  } catch (error) {
+  } catch (error: any) {
     openModal('resend-instructions')
   }
 }
@@ -62,7 +62,7 @@ if (route.query.verificationUrl && route.query.email) {
 
   router.replace({ query: undefined })
 
-  verifyEmail(url)
+  handleVerifyEmail(url)
 }
 
 if (route.query.resetUrl && route.query.signature && route.query.token && route.query.email) {
@@ -85,9 +85,9 @@ const setEmail = (value: string) => {
 const handleGoogleAuth = async (code: string) => {
   try {
     isLoading.value = true
-    await GoogleCallback(code)
+    await googleCallback(code)
 
-    const { data } = await RetrieveAuthUser()
+    const { data } = await retrieveAuthUser()
     userStore.user = data
 
     await router.push({ name: 'news-feed', params: { locale: locale.value } })

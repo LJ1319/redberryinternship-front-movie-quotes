@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MessageContainer from '@/components/shared/MessageContainer.vue'
 import IconTimeExpired from '@/components/icons/IconTimeExpired.vue'
-import { ResendVerification } from '@/services/api/auth'
+import { resendVerification } from '@/services/api/auth'
 
 const props = defineProps<{
   email: string
@@ -13,7 +13,7 @@ const emit = defineEmits<{
 
 const onSubmit = async () => {
   try {
-    await ResendVerification({ email: props.email })
+    await resendVerification({ email: props.email })
     emit('switch', 'activation-instructions')
   } catch (error: any) {
     console.error(error)

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 import type { ForgotPasswordCredentials } from '@/types'
-import { ForgotPassword } from '@/services/api/auth'
+import { forgotPassword } from '@/services/api/auth'
 
-import FormGroup from '@/components/base/form/FormGroup.vue'
+import FormGroup from '@/components/auth/form/FormGroup.vue'
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
 import PrimaryButton from '@/components/base/form/PrimaryButton.vue'
 import IconClose from '@/components/icons/IconClose.vue'
@@ -18,7 +18,7 @@ const { handleSubmit, setFieldError } = useForm<ForgotPasswordCredentials>()
 
 const onSubmit = handleSubmit(async (values: ForgotPasswordCredentials) => {
   try {
-    await ForgotPassword(values)
+    await forgotPassword(values)
 
     emit('setEmail', values.email.split('@')[1])
     emit('switch', 'reset-instructions')

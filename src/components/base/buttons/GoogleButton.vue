@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GoogleRedirect } from '@/services/api/auth'
+import { googleRedirect } from '@/services/api/auth'
 import IconGoogle from '@/components/icons/IconGoogle.vue'
 
 defineProps<{
@@ -8,7 +8,7 @@ defineProps<{
 
 const handleGoogleRedirect = async () => {
   try {
-    const { data } = await GoogleRedirect()
+    const { data } = await googleRedirect()
     window.location.replace(data)
   } catch (error: any) {
     console.error(error)

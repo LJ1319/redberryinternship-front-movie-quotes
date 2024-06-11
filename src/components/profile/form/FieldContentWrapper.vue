@@ -9,12 +9,12 @@ const emit = defineEmits(['cancel', 'switch'])
     class="absolute left-0 top-0 z-50 flex h-full w-full flex-col gap-8 rounded-t-xl bg-mirage-dark lg:static lg:z-0 lg:block lg:bg-transparent"
   >
     <div
-      class="flex flex-col gap-4 rounded-xl bg-mirage px-8 py-16 lg:rounded-none lg:bg-transparent lg:p-0"
+      class="flex flex-col gap-4 rounded-xl bg-mirage px-9 py-16 lg:rounded-none lg:bg-transparent lg:p-0"
     >
       <slot />
     </div>
 
-    <div class="flex w-full items-center justify-between px-8 lg:hidden">
+    <div class="flex w-full items-center justify-between px-9 lg:hidden">
       <button v-on:click="emit('cancel')" type="button" class="capitalize text-white">
         {{ $t('cancel') }}
       </button>

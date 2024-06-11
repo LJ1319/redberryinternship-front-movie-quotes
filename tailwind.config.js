@@ -28,6 +28,7 @@ export default {
         'mirage-light': '#222030',
         'mirage-medium': '#181624',
         'mirage-dark': '#11101A',
+        'mirage-black': '#12101A',
         'neutral-light': '#9C9A9A',
         'neutral-dark': '#373740',
         gold: '#DDCCAA',
@@ -36,6 +37,9 @@ export default {
         },
         blue: {
           DEFAULT: '#0D6EFD'
+        },
+        purple: {
+          DEFAULT: '#9747FF'
         }
       }
     }

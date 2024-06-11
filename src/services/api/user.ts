@@ -1,11 +1,11 @@
 import axios from '@/plugins/axios'
-import type { ProfileUpdateData } from '@/types'
+import type { UpdateProfileValues } from '@/types'
 
-export const RetrieveAuthUser = async () => {
+export const retrieveAuthUser = async () => {
   return await axios.get('/api/user')
 }
 
-export const UpdateUser = async (user: number | undefined, data: ProfileUpdateData) => {
+export const updateUser = async (user: number | undefined, data: UpdateProfileValues) => {
   return await axios.post(`/api/users/${user}`, data, {
     params: {
       _method: 'PATCH'

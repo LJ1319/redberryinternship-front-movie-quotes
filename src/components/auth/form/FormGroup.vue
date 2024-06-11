@@ -39,7 +39,7 @@ const validClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-0'
         :type="isPassword ? 'password' : 'text'"
         :id="name"
         :placeholder="$t(placeholder)"
-        :class="[errors.length > 0 && errorClass, meta.dirty && meta.valid && validClass]"
+        :class="[errors.length && errorClass, meta.dirty && meta.valid && validClass]"
         class="h-10 rounded bg-gray-300 px-4 focus:outline-none focus:ring-4 focus:ring-gray-400"
       />
 
@@ -48,7 +48,7 @@ const validClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-0'
           <icon-visible />
         </button>
 
-        <span v-if="errors.length > 0">
+        <span v-if="errors.length">
           <icon-invalid />
         </span>
 

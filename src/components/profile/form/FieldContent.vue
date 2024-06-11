@@ -26,12 +26,12 @@ const validClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-0'
         :type="type"
         :id="name"
         :placeholder="$t(`new-${name}-placeholder`)"
-        :class="[errors.length > 0 && errorClass, meta.dirty && meta.valid && validClass]"
+        :class="[errors.length && errorClass, meta.dirty && meta.valid && validClass]"
         class="h-12 w-full rounded bg-gray-300 pl-4 pr-12 text-lg focus:outline-none focus:ring-4 focus:ring-gray-400 lg:text-xl"
       />
 
       <div class="absolute right-4 top-3.5 flex items-center gap-2">
-        <span v-if="errors.length > 0">
+        <span v-if="errors.length">
           <icon-invalid class="h-5 w-5" />
         </span>
 

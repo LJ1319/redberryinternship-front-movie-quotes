@@ -11,15 +11,13 @@ const emit = defineEmits(['close'])
       class="my-20 flex h-full w-full justify-center px-6 py-16"
     >
       <div class="h-52 w-full rounded-xl bg-mirage">
-        <div
-          class="flex h-2/3 w-full items-center justify-center border-b border-gray-300 border-opacity-20"
-        >
+        <div class="flex h-2/3 w-full items-center justify-center border-b border-gray-300/20">
           <p class="px-8 text-white">
             {{ $t('make-sure') }}
           </p>
         </div>
 
-        <div class="flex h-1/3 w-full items-center justify-between px-8 lg:hidden">
+        <div class="flex h-1/3 w-full items-center justify-between px-9 lg:hidden">
           <button v-on:click="emit('close')" type="button" class="capitalize text-white">
             {{ $t('cancel') }}
           </button>
