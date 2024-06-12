@@ -34,10 +34,37 @@ export type User = {
   isGoogleUser: boolean
 }
 
-export type ProfileUpdateData = {
+export type UpdateProfileValues = {
   avatar?: File
   username?: string
   email?: string
   password?: string
   password_confirmation?: string
 }
+
+export type Genre = {
+  id: number
+  title: string
+}
+
+export type AddQuoteValues = {}
+
+export type AddMovieValues = {
+  title: {
+    en: string
+    ka: string
+  }
+  genres: Array<Genre>
+  year: number
+  directors: {
+    en: string
+    ka: string
+  }
+  description: {
+    en: string
+    ka: string
+  }
+  image: File
+}
+
+export type UpdateMovieValues = {}

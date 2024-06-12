@@ -3,7 +3,7 @@ import router from '@/router'
 
 import { defaultLocale } from '@/plugins/i18n'
 import { useUserStore } from '@/stores/UserStore'
-import { InitializeCSRFProtection } from '@/services/api/auth'
+import { initializeCSRFProtection } from '@/services/api/auth'
 import { getCookie, setCookie } from '@/utils/helpers'
 
 const instance = axios.create({
@@ -24,7 +24,7 @@ instance.interceptors.request.use(
     }
 
     if (config.method === 'post') {
-      await InitializeCSRFProtection()
+      await initializeCSRFProtection()
     }
 
     return config

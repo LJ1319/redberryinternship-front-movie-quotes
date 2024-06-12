@@ -9,7 +9,7 @@ const emit = defineEmits(['close'])
   >
     <div v-on:click.stop class="relative h-1/2 w-10/12 lg:h-full">
       <div
-        class="h-full w-full -rotate-180 rounded-clg bg-[linear-gradient(112.94deg,_rgba(239,_239,_239,_0.3)_-1.81%,_rgba(239,_239,_239,_0.00514528)_102.5%,_rgba(1,_1,_1,_0.00260417)_102.51%,_rgba(239,_239,_239,_0.05)_102.52%)] opacity-30 backdrop-blur-[25px] backdrop-filter lg:hidden"
+        class="h-full w-full -rotate-180 rounded-clg bg-[linear-gradient(112.94deg,_rgba(239,_239,_239,_0.3)_-1.81%,_rgba(239,_239,_239,_0.00514528)_102.5%,_rgba(1,_1,_1,_0.00260417)_102.51%,_rgba(239,_239,_239,_0.05)_102.52%)] opacity-30 backdrop-blur-xl backdrop-filter lg:hidden"
       ></div>
 
       <div

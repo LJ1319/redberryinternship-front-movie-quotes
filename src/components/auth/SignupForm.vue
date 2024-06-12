@@ -3,9 +3,10 @@ import { useForm } from 'vee-validate'
 import { Signup } from '@/services/api/auth'
 import type { SignupCredentials } from '@/types'
 
-import FormGroup from '@/components/base/form/FormGroup.vue'
+import FormGroup from '@/components/auth/form/FormGroup.vue'
 import GoogleButton from '@/components/base/buttons/GoogleButton.vue'
 import PrimaryButton from '@/components/base/form/PrimaryButton.vue'
+
 import IconClose from '@/components/icons/IconClose.vue'
 
 const emit = defineEmits<{

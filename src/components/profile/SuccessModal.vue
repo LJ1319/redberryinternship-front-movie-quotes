@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { onClickOutside } from '@/composables/onClickOutside'
 
 import IconCheckFill from '@/components/icons/IconCheckFill.vue'
 import IconClose from '@/components/icons/IconClose.vue'
-import { onClickOutside } from '@/composables/onClickOutside'
 
 const emit = defineEmits(['close'])
 

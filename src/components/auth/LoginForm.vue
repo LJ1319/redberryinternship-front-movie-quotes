@@ -4,11 +4,11 @@ import { useI18n } from 'vue-i18n'
 import { ErrorMessage, Field, useForm } from 'vee-validate'
 
 import { useUserStore } from '@/stores/UserStore'
-import { Login } from '@/services/api/auth'
-import { RetrieveAuthUser } from '@/services/api/user'
+import { login } from '@/services/api/auth'
+import { retrieveAuthUser } from '@/services/api/user'
 import type { LoginCredentials } from '@/types'
 
-import FormGroup from '@/components/base/form/FormGroup.vue'
+import FormGroup from '@/components/auth/form/FormGroup.vue'
 import GoogleButton from '@/components/base/buttons/GoogleButton.vue'
 import PrimaryButton from '@/components/base/form/PrimaryButton.vue'
 import IconClose from '@/components/icons/IconClose.vue'
@@ -26,9 +26,9 @@ const { handleSubmit, setFieldError, resetField } = useForm<LoginCredentials>()
 
 const onSubmit = handleSubmit(async (values: LoginCredentials) => {
   try {
-    await Login(values)
+    await login(values)
 
-    const { data } = await RetrieveAuthUser()
+    const { data } = await retrieveAuthUser()
     userStore.user = data
 
     await router.push({ name: 'news-feed', params: { locale: locale.value } })

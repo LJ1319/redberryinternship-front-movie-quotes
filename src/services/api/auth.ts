@@ -7,7 +7,7 @@ import type {
   SignupCredentials
 } from '@/types'
 
-export const InitializeCSRFProtection = async () => {
+export const initializeCSRFProtection = async () => {
   return await axios.get('/sanctum/csrf-cookie')
 }
 
@@ -15,35 +15,35 @@ export const Signup = async (credentials: SignupCredentials) => {
   return await axios.post('/api/signup', credentials)
 }
 
-export const VerifyEmail = async (url: string) => {
+export const verifyEmail = async (url: string) => {
   return await axios.get(url)
 }
 
-export const ResendVerification = async (credentials: ResendVerificationCredentials) => {
+export const resendVerification = async (credentials: ResendVerificationCredentials) => {
   return await axios.post('/api/email/verification-notification', credentials)
 }
 
-export const Login = async (credentials: LoginCredentials) => {
+export const login = async (credentials: LoginCredentials) => {
   return await axios.post('/api/login', credentials)
 }
 
-export const Logout = async () => {
+export const logout = async () => {
   return await axios.post('/api/logout')
 }
 
-export const ForgotPassword = async (credentials: ForgotPasswordCredentials) => {
+export const forgotPassword = async (credentials: ForgotPasswordCredentials) => {
   return await axios.post('/api/forgot-password', credentials)
 }
 
-export const ResetPassword = async (url: string, credentials: ResetPasswordCredentials) => {
+export const resetPassword = async (url: string, credentials: ResetPasswordCredentials) => {
   return await axios.post(url, credentials)
 }
 
-export const GoogleRedirect = async () => {
+export const googleRedirect = async () => {
   return await axios.get('/api/auth/google/redirect')
 }
 
-export const GoogleCallback = async (code: string) => {
+export const googleCallback = async (code: string) => {
   return await axios.get('/api/auth/google/callback', {
     params: {
       code: code
