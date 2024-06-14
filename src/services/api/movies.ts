@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { MovieValues, UpdateMovieValues } from '@/types'
+import type { MovieFormRequest, UpdateMovieValues } from '@/types'
 
 export const getMovies = async () => {
   return await axios.get('/api/movies')
@@ -9,7 +9,7 @@ export const getMovie = async (id: string | number) => {
   return await axios.get(`/api/movies/${id}`)
 }
 
-export const addMovie = async (data: MovieValues) => {
+export const addMovie = async (data: MovieFormRequest) => {
   return await axios.post(`/api/movies`, data, {
     headers: {
       'Content-Type': 'multipart/form-data'

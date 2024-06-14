@@ -80,7 +80,7 @@ export type Movie = {
   }
 }
 
-export type MovieRequest = {
+export type MovieFormRequest = {
   title: {
     en: string
     ka: string

@@ -7,7 +7,7 @@ import { useUserStore } from '@/stores/UserStore'
 import { useMovieStore } from '@/stores/MovieStore'
 import { useGenreStore } from '@/stores/GenresStore'
 import { updateMovie } from '@/services/api/movies'
-import type { Genre, MovieValues } from '@/types'
+import type { Genre, MovieFormRequest } from '@/types'
 
 import TextInputGroup from '@/components/my-movies/form/TextInputGroup.vue'
 import GenresDropdown from '@/components/my-movies/form/GenresDropdown.vue'
@@ -34,7 +34,7 @@ if (movieStore.movie?.genres) {
   selectedGenres.value = [...movieStore.movie.genres]
 }
 
-const { handleSubmit, setErrors } = useForm<MovieValues>()
+const { handleSubmit, setErrors } = useForm<MovieFormRequest>()
 const { value: sGenres } = useField<Array<Genre> | undefined>('genres', 'required')
 sGenres.value = selectedGenres.value
 
