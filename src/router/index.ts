@@ -14,6 +14,7 @@ const MainLayout = () => import('@/layouts/MainLayout.vue')
 const ProfilePage = () => import('@/pages/ProfilePage.vue')
 const NewsFeedPage = () => import('@/pages/NewsFeedPage.vue')
 const MyMoviesPage = () => import('@/pages/MyMoviesPage.vue')
+const SingleMoviePage = () => import('@/pages/SingleMoviePage.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -51,6 +52,12 @@ const router = createRouter({
               path: 'my-movies',
               name: 'my-movies',
               component: MyMoviesPage
+            },
+            {
+              path: 'my-movies/:id',
+              name: 'single-movie',
+              component: SingleMoviePage,
+              props: true
             }
           ],
           meta: {

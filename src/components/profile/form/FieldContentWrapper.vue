@@ -15,15 +15,11 @@ const emit = defineEmits(['cancel', 'switch'])
     </div>
 
     <div class="flex w-full items-center justify-between px-9 lg:hidden">
-      <button v-on:click="emit('cancel')" type="button" class="capitalize text-white">
+      <button v-on:click="emit('cancel')" type="button" class="text-white">
         {{ $t('cancel') }}
       </button>
 
-      <button
-        v-on:click="emit('switch')"
-        type="button"
-        class="h-12 rounded bg-red px-4 capitalize text-white"
-      >
+      <button v-on:click="emit('switch')" type="button" class="h-12 rounded bg-red px-4 text-white">
         {{ $t('edit') }}
       </button>
     </div>

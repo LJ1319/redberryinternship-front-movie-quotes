@@ -192,7 +192,7 @@ if (route.query.authuser && route.query.code) {
         </h1>
         <button
           v-on:click.stop="openModal('signup')"
-          class="z-10 h-10 max-w-32 rounded bg-red px-4 capitalize text-white lg:h-12 lg:max-w-36 lg:text-xl"
+          class="z-10 h-10 max-w-32 rounded bg-red px-4 text-white lg:h-12 lg:max-w-36 lg:text-xl"
         >
           {{ $t('get-started') }}
         </button>

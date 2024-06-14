@@ -3,14 +3,17 @@ import { watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { setLocale } from '@vee-validate/i18n'
+
 import { useUserStore } from '@/stores/UserStore'
+import { useMovieStore } from '@/stores/MovieStore'
 import { getCookie, setCookie } from '@/utils/helpers'
 
 const router = useRouter()
 const route = useRoute()
 const { locale } = useI18n()
-const userStore = useUserStore()
 
+const userStore = useUserStore()
+const movieStore = useMovieStore()
 const localeCookie: string = getCookie('locale')
 
 const initLocale = () => {
@@ -29,8 +32,20 @@ if (localeCookie) {
   initLocale()
 }
 
+const syncData = () => {
+  switch (route.name) {
+    case 'my-movies':
+      movieStore.loadMovies()
+      break
+    case 'single-movie':
+      movieStore.loadMovie(route.params.id.toString())
+      break
+  }
+}
+
 watch(locale, () => {
   initLocale()
+  syncData()
 })
 
 userStore.$subscribe((mutation, state) => {

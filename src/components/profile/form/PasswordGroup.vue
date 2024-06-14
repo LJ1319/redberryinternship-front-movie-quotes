@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 import { Field } from 'vee-validate'
 
-import IconVisible from '@/components/icons/IconVisible.vue'
+import IconShow from '@/components/icons/IconShow.vue'
+import IconHide from '@/components/icons/IconHide.vue'
 
 defineProps<{
   name: string
@@ -18,7 +19,7 @@ const toggleType = () => {
 
 <template>
   <div class="flex flex-col gap-4">
-    <label :for="name" class="w-max capitalize text-white">
+    <label :for="name" class="w-max text-white">
       {{ $t(`new-${desc}-label`) }}
     </label>
 
@@ -35,7 +36,8 @@ const toggleType = () => {
 
       <div class="absolute right-4 top-3.5 flex items-center gap-2">
         <button v-on:click="toggleType" type="button">
-          <icon-visible class="h-5 w-5" />
+          <icon-show v-if="isPassword" color="gray" class="h-5 w-5" />
+          <icon-hide v-if="!isPassword" class="h-5 w-5" />
         </button>
       </div>
     </div>

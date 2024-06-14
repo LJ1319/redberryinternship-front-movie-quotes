@@ -1,8 +1,9 @@
 import axios from 'axios'
 import router from '@/router'
-
 import { defaultLocale } from '@/plugins/i18n'
+
 import { useUserStore } from '@/stores/UserStore'
+import { useMovieStore } from '@/stores/MovieStore'
 import { initializeCSRFProtection } from '@/services/api/auth'
 import { getCookie, setCookie } from '@/utils/helpers'
 
@@ -42,10 +43,14 @@ instance.interceptors.response.use(
     const status = error.response.status
     const locale: string = getCookie('locale') ?? defaultLocale
     const userStore = useUserStore()
+    const movieStore = useMovieStore()
 
     if (status === 401) {
       setCookie('user', JSON.stringify({ user: null }), 30)
-      userStore.user = null
+
+      userStore.reset()
+      movieStore.reset()
+
       await router.push({ name: 'landing', params: { locale: locale } })
     }
 

@@ -103,7 +103,7 @@ const onSubmit = handleSubmit(async (values: LoginCredentials) => {
 
     <p class="text-center text-gray-500">
       {{ $t('no-account') }}?
-      <button v-on:click.stop="emit('switch', 'signup')" class="capitalize text-blue underline">
+      <button v-on:click.stop="emit('switch', 'signup')" class="text-blue underline">
         {{ $t('signup') }}
       </button>
     </p>

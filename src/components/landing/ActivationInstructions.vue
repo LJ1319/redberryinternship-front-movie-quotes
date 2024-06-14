@@ -20,7 +20,7 @@ defineProps<{
     <a
       :href="`https://www.${email ?? 'gmail.com'}`"
       target="_blank"
-      class="flex h-10 w-72 items-center justify-center rounded bg-red capitalize text-white lg:w-full"
+      class="flex h-10 w-72 items-center justify-center rounded bg-red text-white lg:w-full"
     >
       {{ $t('go-to-mail') }}
     </a>

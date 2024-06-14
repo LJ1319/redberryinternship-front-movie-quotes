@@ -20,7 +20,7 @@ const handleGoogleRedirect = async () => {
   <button
     v-on:click="handleGoogleRedirect"
     type="button"
-    class="flex h-10 w-full items-center justify-center gap-2 rounded border border-white capitalize text-white"
+    class="flex h-10 w-full items-center justify-center gap-2 rounded border border-white text-white"
   >
     <icon-google />
     {{ $t(action) }} {{ $t('google') }}

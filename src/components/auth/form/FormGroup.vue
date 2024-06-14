@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 import { ErrorMessage, Field } from 'vee-validate'
 
-import IconVisible from '@/components/icons/IconVisible.vue'
+import IconShow from '@/components/icons/IconShow.vue'
+import IconHide from '@/components/icons/IconHide.vue'
 import IconInvalid from '@/components/icons/IconInvalid.vue'
 import IconValid from '@/components/icons/IconValid.vue'
 
@@ -18,6 +19,7 @@ let isPassword = ref(props.type === 'password')
 
 const toggleType = () => {
   isPassword.value = !isPassword.value
+  console.log(isPassword.value)
 }
 
 const errorClass = 'border border-red-500 focus:ring-0 focus:ring-opacity-0'
@@ -26,10 +28,7 @@ const validClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-0'
 
 <template>
   <div class="relative flex flex-col gap-2">
-    <label
-      :for="name"
-      class="w-max capitalize text-white after:ml-1 after:text-red-500 after:content-['*']"
-    >
+    <label :for="name" class="w-max text-white after:ml-1 after:text-red-500 after:content-['*']">
       {{ $t(label) }}
     </label>
 
@@ -45,7 +44,8 @@ const validClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-0'
 
       <div class="absolute right-4 top-11 flex items-center gap-2">
         <button v-if="type === 'password'" v-on:click="toggleType" type="button">
-          <icon-visible />
+          <icon-show v-if="isPassword" color="gray" />
+          <icon-hide v-if="!isPassword" />
         </button>
 
         <span v-if="errors.length">

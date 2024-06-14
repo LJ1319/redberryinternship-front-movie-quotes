@@ -18,7 +18,7 @@ const emit = defineEmits(['close'])
         </div>
 
         <div class="flex h-1/3 w-full items-center justify-between px-9 lg:hidden">
-          <button v-on:click="emit('close')" type="button" class="capitalize text-white">
+          <button v-on:click="emit('close')" type="button" class="text-white">
             {{ $t('cancel') }}
           </button>
 

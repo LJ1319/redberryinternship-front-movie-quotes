@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { ErrorMessage, Field, useField, useForm } from 'vee-validate'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { ErrorMessage, useField, useForm } from 'vee-validate'
 
 import { useUserStore } from '@/stores/UserStore'
 import { useMovieStore } from '@/stores/MovieStore'
 import { useGenreStore } from '@/stores/GenresStore'
-import { addMovie } from '@/services/api/movies'
+import { updateMovie } from '@/services/api/movies'
 import type { Genre, MovieValues } from '@/types'
 
 import TextInputGroup from '@/components/my-movies/form/TextInputGroup.vue'
 import GenresDropdown from '@/components/my-movies/form/GenresDropdown.vue'
-import TextareaGroup from '@/components/my-movies/form/TextareaGroup.vue'
 import ImageHint from '@/components/my-movies/form/ImageHint.vue'
 import PrimaryButton from '@/components/base/form/PrimaryButton.vue'
 
@@ -20,13 +20,23 @@ import IconCaret from '@/components/icons/IconCaret.vue'
 
 const emit = defineEmits(['close'])
 
+const route = useRoute()
+
 const userStore = useUserStore()
 const movieStore = useMovieStore()
 const genreStore = useGenreStore()
 genreStore.loadGenres()
 
 const dropdownIsOpen = ref(false)
-const selectedGenres = ref<Set<Genre>>(new Set())
+
+const selectedGenres = ref<Array<Genre> | undefined>([])
+if (movieStore.movie?.genres) {
+  selectedGenres.value = [...movieStore.movie.genres]
+}
+
+const { handleSubmit, setErrors } = useForm<MovieValues>()
+const { value: sGenres } = useField<Array<Genre> | undefined>('genres', 'required')
+sGenres.value = selectedGenres.value
 
 const switchDropdown = () => {
   dropdownIsOpen.value = !dropdownIsOpen.value
@@ -37,15 +47,43 @@ const closeDropdown = () => {
 }
 
 const addGenre = (genre: Genre) => {
-  selectedGenres.value.add(genre)
+  let inArray = false
+  selectedGenres.value?.forEach((sGenre) => {
+    if (sGenre.id === genre.id) {
+      inArray = true
+      return
+    }
+  })
+
+  if (!inArray) {
+    selectedGenres.value?.push(genre)
+    sGenres.value = selectedGenres.value
+  }
 }
 
 const removeGenre = (genre: Genre) => {
-  selectedGenres.value.delete(genre)
+  selectedGenres.value = selectedGenres.value?.filter((sGenre) => sGenre.id !== genre.id)
+  sGenres.value = selectedGenres.value
+
+  if (sGenres.value?.length === 0) {
+    sGenres.value = undefined
+  }
 }
 
-const imageUrl = ref<string>('')
+const imageUrl = ref<string | undefined>(movieStore.movie?.image)
 const selectedImage = ref<File | null>(null)
+
+const { value: descEn, errorMessage: descEnError } = useField<string | undefined>(
+  'description[en]',
+  'required|en'
+)
+descEn.value = movieStore.movie?.translations.description.en
+
+const { value: descKa, errorMessage: descKaError } = useField<string | undefined>(
+  'description[ka]',
+  'required|ka'
+)
+descKa.value = movieStore.movie?.translations.description.ka
 
 const handleImageUpload = (event: Event) => {
   const fileList = (event.target as HTMLInputElement).files
@@ -57,20 +95,16 @@ const handleImageUpload = (event: Event) => {
   }
 }
 
-const { handleSubmit, setErrors } = useForm<MovieValues>()
-const { value } = useField<Array<Genre> | undefined>('genres', 'required')
-
-watch(selectedGenres.value, (selectedGenres) => {
-  if (selectedGenres.size) {
-    value.value = [...selectedGenres]
-  } else {
-    value.value = undefined
-  }
-})
-
 const onSubmit = handleSubmit(async (values) => {
   let formData = {
     ...values
+  }
+
+  if (descEn.value && descKa.value) {
+    formData.description = {
+      en: descEn.value,
+      ka: descKa.value
+    }
   }
 
   if (selectedImage.value) {
@@ -78,8 +112,10 @@ const onSubmit = handleSubmit(async (values) => {
   }
 
   try {
-    await addMovie(formData)
-    await movieStore.loadMovies()
+    const id = route.params.id.toString()
+
+    await updateMovie(id, formData)
+    await movieStore.loadMovie(id)
     emit('close')
   } catch (error: any) {
     setErrors(error.response.data.errors)
@@ -93,7 +129,7 @@ const onSubmit = handleSubmit(async (values) => {
   >
     <div class="flex items-center border-b border-zinc-600 p-9">
       <h1 class="flex-1 text-center text-xl font-medium capitalize text-white lg:text-2xl">
-        {{ $t('add-movie') }}
+        {{ $t('edit-movie') }}
       </h1>
       <button v-on:click="emit('close')" class="shrink-0">
         <icon-close color="white" />
@@ -126,13 +162,15 @@ const onSubmit = handleSubmit(async (values) => {
             name="title[en]"
             rules="required|en"
             placeholder="Movie title"
+            :value="movieStore.movie?.translations.title.en"
           />
 
           <text-input-group
-            lang="Eng"
+            lang="ქარ"
             name="title[ka]"
             rules="required|ka"
             placeholder="ფილმის სახელი"
+            :value="movieStore.movie?.translations.title.ka"
           />
 
           <div class="flex flex-col gap-2">
@@ -140,11 +178,11 @@ const onSubmit = handleSubmit(async (values) => {
               class="relative flex h-12 w-full items-center justify-between gap-2 rounded border border-gray-500 bg-mirage-dark px-4"
             >
               <div class="h-max overflow-scroll">
-                <span v-if="!selectedGenres.size" class="text-gray-400 lg:text-xl">
+                <span v-if="!selectedGenres?.length" class="text-gray-400 lg:text-xl">
                   {{ $t('genres-placeholder') }}
                 </span>
 
-                <ul v-if="selectedGenres.size" class="flex gap-2 py-2">
+                <ul v-if="selectedGenres?.length" class="flex gap-2 py-2">
                   <li
                     v-for="sGenre in selectedGenres"
                     :key="sGenre.id"
@@ -173,13 +211,19 @@ const onSubmit = handleSubmit(async (values) => {
             <ErrorMessage name="genres" class="text-sm text-red-500" />
           </div>
 
-          <text-input-group name="year" rules="required|num" placeholder="Year / წელი" />
+          <text-input-group
+            name="year"
+            rules="required|num"
+            placeholder="Year / წელი"
+            :value="movieStore.movie?.year"
+          />
 
           <text-input-group
             lang="Eng"
             name="directors[en]"
             rules="required|en"
             placeholder="Director(s)"
+            :value="movieStore.movie?.translations.directors.en"
           />
 
           <text-input-group
@@ -187,42 +231,52 @@ const onSubmit = handleSubmit(async (values) => {
             name="directors[ka]"
             rules="required|ka"
             placeholder="რეჟისორ(ებ)ი"
+            :value="movieStore.movie?.translations.directors.ka"
           />
 
-          <textarea-group
-            lang="Eng"
-            name="description[en]"
-            rules="required|en"
-            placeholder="Movie description"
-          />
+          <div class="relative flex flex-col gap-2 lg:text-xl">
+            <textarea
+              v-model="descEn"
+              name="description[en]"
+              placeholder="Movie description"
+              class="relative w-full rounded border border-gray-500 bg-mirage-dark p-4 pr-16 text-white focus:outline-none"
+            />
+            <span class="absolute right-4 top-4 text-gray-500">Eng</span>
 
-          <textarea-group
-            lang="ქარ"
-            name="description[ka]"
-            rules="required|ka"
-            placeholder="ფილმის აღწერა"
-          />
+            <span class="text-sm text-red-500">{{ descEnError }}</span>
+          </div>
+
+          <div class="relative flex flex-col gap-2 lg:text-xl">
+            <textarea
+              v-model="descKa"
+              name="description[ka]"
+              placeholder="ფილმის აღწერა"
+              class="relative w-full rounded border border-gray-500 bg-mirage-dark p-4 pr-16 text-white focus:outline-none"
+            />
+            <span class="absolute right-4 top-4 text-gray-500">ქარ</span>
+
+            <span class="text-sm text-red-500">{{ descKaError }}</span>
+          </div>
 
           <div class="flex flex-col gap-2">
             <div class="rounded border border-gray-500 bg-mirage-dark">
               <label
                 for="image"
-                :class="selectedImage && 'gap-4'"
+                :class="imageUrl && 'gap-4'"
                 class="relative flex w-full items-center justify-between p-4 text-white lg:justify-normal lg:gap-4 lg:text-xl"
               >
                 <img
-                  v-if="selectedImage"
+                  v-if="imageUrl"
                   :src="imageUrl"
                   alt="Movie Image"
                   class="w-44 shrink-0 border border-dashed border-gray-500 lg:w-1/2"
                 />
 
-                <image-hint :selected-image="!!selectedImage" />
+                <image-hint :selected-image="!!imageUrl" />
 
-                <Field
+                <input
                   v-on:change="handleImageUpload"
                   name="image"
-                  rules="required"
                   type="file"
                   id="image"
                   accept="image/*"
@@ -235,7 +289,7 @@ const onSubmit = handleSubmit(async (values) => {
           </div>
         </div>
 
-        <primary-button action="add" class="h-12 w-full text-xl" />
+        <primary-button action="edit" class="h-12 w-full text-xl" />
       </form>
     </div>
   </div>

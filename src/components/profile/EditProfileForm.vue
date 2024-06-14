@@ -18,18 +18,12 @@ import SuccessModal from '@/components/profile/SuccessModal.vue'
 import IconUser from '@/components/icons/IconUser.vue'
 
 const userStore = useUserStore()
-const user = ref(userStore.user)
-
-userStore.$subscribe((mutation, state) => {
-  user.value = state.user
-  handleCancel()
-})
 
 const isEditing = ref(false)
 const confirmModalIsOpen = ref(false)
 const successModalIsOpen = ref(false)
 
-const imageUrl = ref(user.value?.avatar)
+let imageUrl = userStore.user?.avatar
 const selectedImage = ref<File | null>(null)
 
 const handleImageUpload = (event: Event) => {
@@ -37,7 +31,7 @@ const handleImageUpload = (event: Event) => {
 
   if (fileList && fileList.length) {
     const file = fileList[0]
-    imageUrl.value = URL.createObjectURL(file)
+    imageUrl = URL.createObjectURL(file)
     selectedImage.value = file
 
     isEditing.value = true
@@ -69,7 +63,7 @@ const enableEdit = (field: string) => {
 }
 
 const handleCancel = () => {
-  imageUrl.value = user.value?.avatar
+  imageUrl = userStore.user?.avatar
 
   isEditing.value = false
   editingUsername.value = false
@@ -107,8 +101,10 @@ const onSubmit = handleSubmit(async (values: UpdateProfileValues) => {
   }
 
   try {
-    const { data } = await updateUser(user.value?.id, formData)
+    const { data } = await updateUser(userStore.user?.id, formData)
     userStore.user = data
+
+    handleCancel()
     successModalIsOpen.value = true
   } catch (error: any) {
     setErrors(error.response.data.errors)
@@ -123,7 +119,7 @@ const onSubmit = handleSubmit(async (values: UpdateProfileValues) => {
 
       <icon-user v-if="!imageUrl" class="z-10 h-48 w-48 rounded-full" />
 
-      <label for="avatar" class="z-10 cursor-pointer text-xl capitalize text-white">
+      <label for="avatar" class="z-10 cursor-pointer text-xl text-white">
         {{ $t('upload-photo') }}
       </label>
       <input
@@ -143,7 +139,7 @@ const onSubmit = handleSubmit(async (values: UpdateProfileValues) => {
         <div class="flex w-full flex-col gap-12 lg:w-11/12">
           <field-container
             name="username"
-            :data="user?.username"
+            :data="userStore.user?.username"
             :editing="isEditing && editingUsername"
             v-on:enableEdit="enableEdit"
           >
@@ -158,8 +154,8 @@ const onSubmit = handleSubmit(async (values: UpdateProfileValues) => {
 
           <field-container
             name="email"
-            :data="user?.email"
-            :can-edit="!user?.isGoogleUser"
+            :data="userStore.user?.email"
+            :can-edit="!userStore.user?.isGoogleUser"
             :editing="isEditing && editingEmail"
             v-on:enableEdit="enableEdit"
           >
@@ -172,7 +168,7 @@ const onSubmit = handleSubmit(async (values: UpdateProfileValues) => {
             </field-content-wrapper>
           </field-container>
 
-          <div v-if="!user?.isGoogleUser" class="flex flex-col gap-8">
+          <div v-if="!userStore.user?.isGoogleUser" class="flex flex-col gap-8">
             <field-container
               name="password"
               data="••••••••••••"
@@ -237,7 +233,7 @@ const onSubmit = handleSubmit(async (values: UpdateProfileValues) => {
       </div>
 
       <div v-if="isEditing" class="hidden items-center justify-end gap-8 lg:flex">
-        <button v-on:click="handleCancel" type="button" class="text-xl capitalize text-white">
+        <button v-on:click="handleCancel" type="button" class="text-xl text-white">
           {{ $t('cancel') }}
         </button>
         <primary-button action="save-changes" class="h-12 px-4 text-xl" />
