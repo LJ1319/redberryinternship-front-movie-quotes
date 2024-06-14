@@ -19,7 +19,6 @@ const emit = defineEmits<{
 const route = useRoute()
 const { locale } = useI18n()
 const userStore = useUserStore()
-const isAuth = ref(userStore.user)
 
 const sidebarIsOpen = ref(false)
 const openSidebar = () => {
@@ -46,8 +45,8 @@ watch(route, closeSidebar)
     :class="route.name !== 'landing' && 'fixed left-0 top-0 z-40'"
     class="flex min-h-20 w-full items-center justify-between bg-mirage px-9 py-6 lg:px-18"
   >
-    <div :class="!isAuth && 'z-40'" class="flex gap-4">
-      <button v-if="isAuth" v-on:click.stop="openSidebar" class="lg:hidden">
+    <div :class="!userStore.user && 'z-40'" class="flex gap-4">
+      <button v-if="userStore.user" v-on:click.stop="openSidebar" class="lg:hidden">
         <icon-burger />
       </button>
 
@@ -56,28 +55,28 @@ watch(route, closeSidebar)
       </router-link>
     </div>
 
-    <div :class="!isAuth && 'z-40'" class="flex items-center justify-end gap-4">
+    <div :class="!userStore.user && 'z-40'" class="flex items-center justify-end gap-4">
       <button v-if="route.name === 'news-feed'">
         <icon-search />
       </button>
 
-      <button v-if="isAuth">
+      <button v-if="userStore.user">
         <icon-bell />
       </button>
 
       <language-switcher />
 
-      <div v-if="!isAuth" class="flex gap-3 lg:gap-4">
+      <div v-if="!userStore.user" class="flex gap-3 lg:gap-4">
         <button
           v-on:click.stop="emit('open', 'signup')"
-          class="flex h-8 min-w-20 items-center justify-center rounded bg-red px-2 capitalize text-white lg:h-10 lg:min-w-28 lg:px-4"
+          class="flex h-8 min-w-20 items-center justify-center rounded bg-red px-2 text-white lg:h-10 lg:min-w-28 lg:px-4"
         >
           {{ $t('signup') }}
         </button>
 
         <button
           v-on:click.stop="emit('open', 'login')"
-          class="flex h-8 min-w-[4.5rem] items-center justify-center rounded border border-white px-2 capitalize text-white lg:h-10 lg:w-24 lg:px-4"
+          class="flex h-8 min-w-[4.5rem] items-center justify-center rounded border border-white px-2 text-white lg:h-10 lg:w-24 lg:px-4"
         >
           {{ $t('login') }}
         </button>

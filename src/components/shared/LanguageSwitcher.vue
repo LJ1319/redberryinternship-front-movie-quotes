@@ -10,8 +10,8 @@ const dropdown = ref<HTMLElement | null>(null)
 const dropdownIsOpen = ref(false)
 const { locale, availableLocales } = useI18n()
 
-const openDropdown = () => {
-  dropdownIsOpen.value = true
+const switchDropdown = () => {
+  dropdownIsOpen.value = !dropdownIsOpen.value
 }
 
 const closeDropdown = () => {
@@ -28,7 +28,7 @@ const setUserLocale = (currentLocale: string) => {
 
 <template>
   <div class="relative flex items-center justify-center">
-    <button v-on:click.stop="openDropdown" class="flex items-center gap-2">
+    <button v-on:click.stop="switchDropdown" class="flex items-center gap-2">
       <span class="text-sm text-white lg:text-base">
         {{ locale === 'en' ? 'Eng' : 'ქარ' }}
       </span>

@@ -15,7 +15,7 @@ const validClass = 'border border-green-700 focus:ring-0 focus:ring-opacity-0'
 </script>
 
 <template>
-  <label :for="name" class="w-max capitalize text-white">
+  <label :for="name" class="w-max text-white">
     {{ $t(`new-${name}-label`) }}
   </label>
 

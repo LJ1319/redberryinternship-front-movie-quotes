@@ -18,7 +18,7 @@ const emit = defineEmits<{
 
 <template>
   <div class="flex flex-col border-b border-gray-600 lg:gap-4 lg:border-0">
-    <span class="w-max capitalize text-white">
+    <span class="w-max text-white">
       {{ $t(`${name}-label`) }}
     </span>
 
@@ -33,7 +33,7 @@ const emit = defineEmits<{
         v-if="canEdit && !editing"
         v-on:click="emit('enable-edit', name)"
         type="button"
-        class="capitalize text-white"
+        class="text-white"
       >
         {{ $t('edit') }}
       </button>

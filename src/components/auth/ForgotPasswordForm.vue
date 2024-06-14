@@ -37,9 +37,7 @@ const onSubmit = handleSubmit(async (values: ForgotPasswordCredentials) => {
 
   <div class="flex flex-col gap-10">
     <div class="flex flex-col gap-3 text-center">
-      <h1 class="text-2xl font-medium capitalize text-white lg:text-[2rem]">
-        {{ $t('forgot-password') }}?
-      </h1>
+      <h1 class="text-2xl font-medium text-white lg:text-[2rem]">{{ $t('forgot-password') }}?</h1>
       <h2 class="text-gray-500">
         {{ $t('forgot-title') }}
       </h2>
@@ -54,7 +52,7 @@ const onSubmit = handleSubmit(async (values: ForgotPasswordCredentials) => {
         placeholder="email-placeholder"
       />
 
-      <div class="flex flex-col gap-4 capitalize">
+      <div class="flex flex-col gap-4">
         <primary-button action="send-instructions" class="h-10" />
       </div>
     </form>

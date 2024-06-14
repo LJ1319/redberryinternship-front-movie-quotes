@@ -4,8 +4,8 @@ import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
 </script>
 
 <template>
-  <div class="flex h-full w-full flex-col justify-between lg:gap-40 lg:px-16 lg:py-8">
-    <h1 class="hidden w-max px-10 text-2xl font-medium capitalize text-white lg:block">
+  <div class="flex h-full w-full flex-col justify-between lg:gap-40 lg:px-18 lg:py-9">
+    <h1 class="hidden w-max px-10 text-2xl font-medium text-white lg:block">
       {{ $t('my-profile') }}
     </h1>
 

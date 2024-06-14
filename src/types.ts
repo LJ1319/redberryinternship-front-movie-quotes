@@ -47,9 +47,40 @@ export type Genre = {
   title: string
 }
 
-export type AddQuoteValues = {}
+export type MovieList = {
+  id: number
+  image: string
+  title: string
+  year: string
+  quotes: number
+}
 
-export type AddMovieValues = {
+export type Movie = {
+  id: number
+  image: string
+  title: string
+  year: string
+  genres: Array<Genre>
+  directors: string
+  description: string
+  quotes: number
+  translations: {
+    title: {
+      en: string
+      ka: string
+    }
+    directors: {
+      en: string
+      ka: string
+    }
+    description: {
+      en: string
+      ka: string
+    }
+  }
+}
+
+export type MovieFormRequest = {
   title: {
     en: string
     ka: string
@@ -66,5 +97,3 @@ export type AddMovieValues = {
   }
   image: File
 }
-
-export type UpdateMovieValues = {}

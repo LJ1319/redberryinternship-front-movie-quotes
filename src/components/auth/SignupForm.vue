@@ -85,7 +85,7 @@ const onSubmit = handleSubmit(async (values: SignupCredentials) => {
 
     <p class="text-center text-gray-500">
       {{ $t('already-user') }}?
-      <button v-on:click.stop="emit('switch', 'login')" class="capitalize text-blue underline">
+      <button v-on:click.stop="emit('switch', 'login')" class="text-blue underline">
         {{ $t('login') }}
       </button>
     </p>

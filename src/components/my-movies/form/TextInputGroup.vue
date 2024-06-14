@@ -5,6 +5,7 @@ defineProps<{
   name: string
   rules: string
   placeholder: string
+  value?: string | number
   lang?: string
 }>()
 </script>
@@ -17,12 +18,14 @@ defineProps<{
       <Field
         :name="name"
         :rules="rules"
+        validate-on-input
         type="text"
         :id="name"
         :placeholder="placeholder"
+        :value="value"
         class="w-full bg-transparent text-white focus:outline-none"
       />
-      <span v-if="lang" class="shrink-0 capitalize text-gray-500">{{ lang }}</span>
+      <span v-if="lang" class="shrink-0 text-gray-500">{{ lang }}</span>
     </div>
 
     <ErrorMessage :name="name" class="text-sm text-red-500" />

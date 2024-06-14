@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/UserStore'
 
@@ -11,11 +10,6 @@ import IconUser from '@/components/icons/IconUser.vue'
 
 const route = useRoute()
 const userStore = useUserStore()
-const user = ref(userStore.user)
-
-userStore.$subscribe((mutation, state) => {
-  user.value = state.user
-})
 </script>
 
 <template>
@@ -27,24 +21,24 @@ userStore.$subscribe((mutation, state) => {
           class="flex h-16 w-16 items-center justify-center rounded-full"
         >
           <img
-            v-if="user?.avatar"
-            :src="user?.avatar"
+            v-if="userStore.user?.avatar"
+            :src="userStore.user?.avatar"
             alt="User Avatar"
             class="h-16 w-16 rounded-full"
           />
 
-          <icon-user v-if="!user?.avatar" class="h-16 w-16 rounded-full" />
+          <icon-user v-if="!userStore.user?.avatar" class="h-16 w-16 rounded-full" />
         </div>
 
         <div class="flex flex-col">
-          <p class="lg:text-2xl">{{ user?.username }}</p>
-          <router-link to="profile" class="text-sm text-gray-300 lg:text-base">
+          <p class="lg:text-2xl">{{ userStore.user?.username }}</p>
+          <router-link :to="{ name: 'profile' }" class="text-sm text-gray-300 lg:text-base">
             {{ $t('edit-profile') }}
           </router-link>
         </div>
       </div>
 
-      <router-link to="news-feed" class="flex items-center gap-10 capitalize lg:text-2xl">
+      <router-link :to="{ name: 'news-feed' }" class="flex items-center gap-10 lg:text-2xl">
         <icon-house
           :color="route.name === 'news-feed' ? 'red' : 'white'"
           class="h-6 w-6 lg:h-8 lg:w-8"
@@ -52,7 +46,7 @@ userStore.$subscribe((mutation, state) => {
         {{ $t('news-feed') }}
       </router-link>
 
-      <router-link to="my-movies" class="flex items-center gap-10 capitalize lg:text-2xl">
+      <router-link :to="{ name: 'my-movies' }" class="flex items-center gap-10 lg:text-2xl">
         <icon-video-camera
           :color="route.name === 'my-movies' ? 'red' : 'white'"
           class="h-6 w-6 lg:h-8 lg:w-8"
