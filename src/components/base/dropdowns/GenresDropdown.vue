@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Genre } from '@/types'
 import { onClickOutside } from '@/composables/onClickOutside'
-
-const dropdown = ref<HTMLElement | null>(null)
+import type { Genre } from '@/types'
 
 defineProps<{
   genres: Array<Genre>
@@ -14,18 +12,19 @@ const emit = defineEmits<{
   add: [genre: Genre]
 }>()
 
+const dropdown = ref<HTMLElement | null>(null)
 onClickOutside(dropdown.value, () => emit('close'))
 </script>
 
 <template>
   <ul
     ref="dropdown"
-    class="absolute left-0 top-14 z-50 w-full rounded bg-mirage-black ring-2 ring-gray-500"
+    class="absolute left-0 top-14 z-50 w-full rounded bg-mirage-black ring-1 ring-gray-500"
   >
     <li
       v-for="genre in genres"
-      v-on:click="emit('add', genre)"
       :key="genre.id"
+      v-on:click="emit('add', genre)"
       class="cursor-pointer border-b border-gray-500 p-4 text-white last-of-type:border-0"
     >
       {{ genre.title }}

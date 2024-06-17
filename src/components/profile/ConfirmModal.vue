@@ -5,7 +5,7 @@ const emit = defineEmits(['close'])
 </script>
 
 <template>
-  <div class="fixed left-0 top-0 z-50 h-screen w-screen backdrop-blur-sm lg:hidden">
+  <div class="fixed left-0 top-0 z-50 h-screen w-screen bg-mirage-medium/70 lg:hidden">
     <div
       style="background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%)"
       class="my-20 flex h-full w-full justify-center px-6 py-16"

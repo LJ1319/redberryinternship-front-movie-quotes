@@ -24,10 +24,10 @@ const userStore = useUserStore()
             v-if="userStore.user?.avatar"
             :src="userStore.user?.avatar"
             alt="User Avatar"
-            class="h-16 w-16 rounded-full"
+            class="h-full w-full rounded-full"
           />
 
-          <icon-user v-if="!userStore.user?.avatar" class="h-16 w-16 rounded-full" />
+          <icon-user v-if="!userStore.user?.avatar" class="h-full w-full rounded-full" />
         </div>
 
         <div class="flex flex-col">

@@ -23,6 +23,20 @@ const isEditing = ref(false)
 const confirmModalIsOpen = ref(false)
 const successModalIsOpen = ref(false)
 
+const openConfirmModal = () => {
+  if (meta.value.dirty && meta.value.valid) {
+    confirmModalIsOpen.value = true
+  }
+}
+
+const closeConfirmModal = () => {
+  confirmModalIsOpen.value = false
+}
+
+const closeSuccessModal = () => {
+  successModalIsOpen.value = false
+}
+
 let imageUrl = userStore.user?.avatar
 const selectedImage = ref<File | null>(null)
 
@@ -77,20 +91,6 @@ const { meta, errors, handleSubmit, setErrors, isFieldDirty, isFieldValid } =
   useForm<UpdateProfileValues>()
 const passwordRules = ['rule-min', 'rule-max', 'rule-alpha-num']
 
-const openConfirmModal = () => {
-  if (meta.value.dirty && meta.value.valid) {
-    confirmModalIsOpen.value = true
-  }
-}
-
-const closeConfirmModal = () => {
-  confirmModalIsOpen.value = false
-}
-
-const closeSuccessModal = () => {
-  successModalIsOpen.value = false
-}
-
 const onSubmit = handleSubmit(async (values: UpdateProfileValues) => {
   let formData = {
     ...values
@@ -116,7 +116,6 @@ const onSubmit = handleSubmit(async (values: UpdateProfileValues) => {
   <form v-on:submit="onSubmit" class="flex w-full flex-col items-center justify-center gap-8">
     <div class="-top-24 flex w-full flex-col items-center justify-center gap-4 lg:absolute">
       <img v-if="imageUrl" :src="imageUrl" alt="User Avatar" class="z-10 h-48 w-48 rounded-full" />
-
       <icon-user v-if="!imageUrl" class="z-10 h-48 w-48 rounded-full" />
 
       <label for="avatar" class="z-10 cursor-pointer text-xl text-white">

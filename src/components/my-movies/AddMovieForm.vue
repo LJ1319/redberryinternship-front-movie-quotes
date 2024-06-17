@@ -3,31 +3,29 @@ import { ref, watch } from 'vue'
 import { ErrorMessage, Field, useField, useForm } from 'vee-validate'
 
 import { useUserStore } from '@/stores/UserStore'
-import { useMovieStore } from '@/stores/MovieStore'
 import { useGenreStore } from '@/stores/GenresStore'
 import { addMovie } from '@/services/api/movies'
 import type { Genre, MovieFormRequest } from '@/types'
 
-import TextInputGroup from '@/components/my-movies/form/TextInputGroup.vue'
-import GenresDropdown from '@/components/my-movies/form/GenresDropdown.vue'
-import TextareaGroup from '@/components/my-movies/form/TextareaGroup.vue'
-import ImageHint from '@/components/my-movies/form/ImageHint.vue'
+import FormHeader from '@/components/base/form/FormHeader.vue'
+import UserInfo from '@/components/shared/UserInfo.vue'
+import GenresDropdown from '@/components/base/dropdowns/GenresDropdown.vue'
+
+import TextInputGroup from '@/components/base/form/TextInputGroup.vue'
+import TextareaGroup from '@/components/base/form/TextareaGroup.vue'
+import ImageHint from '@/components/base/form/ImageHint.vue'
 import PrimaryButton from '@/components/base/form/PrimaryButton.vue'
 
 import IconClose from '@/components/icons/IconClose.vue'
-import IconUser from '@/components/icons/IconUser.vue'
 import IconCaret from '@/components/icons/IconCaret.vue'
 
 const emit = defineEmits(['close'])
 
 const userStore = useUserStore()
-const movieStore = useMovieStore()
 const genreStore = useGenreStore()
 genreStore.loadGenres()
 
 const dropdownIsOpen = ref(false)
-const selectedGenres = ref<Set<Genre>>(new Set())
-
 const switchDropdown = () => {
   dropdownIsOpen.value = !dropdownIsOpen.value
 }
@@ -36,6 +34,7 @@ const closeDropdown = () => {
   dropdownIsOpen.value = false
 }
 
+const selectedGenres = ref<Set<Genre>>(new Set())
 const addGenre = (genre: Genre) => {
   selectedGenres.value.add(genre)
 }
@@ -79,7 +78,6 @@ const onSubmit = handleSubmit(async (values) => {
 
   try {
     await addMovie(formData)
-    await movieStore.loadMovies()
     emit('close')
   } catch (error: any) {
     setErrors(error.response.data.errors)
@@ -88,36 +86,15 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div
-    class="absolute left-0 top-0 z-50 flex h-max w-full flex-col bg-mirage-dark lg:static lg:mx-auto lg:w-1/2 lg:rounded-xl"
-  >
-    <div class="flex items-center border-b border-zinc-600 p-9">
-      <h1 class="flex-1 text-center text-xl font-medium capitalize text-white lg:text-2xl">
-        {{ $t('add-movie') }}
-      </h1>
-      <button v-on:click="emit('close')" class="shrink-0">
-        <icon-close color="white" />
-      </button>
-    </div>
+  <div class="flex h-max w-full flex-col bg-mirage-dark lg:mx-auto lg:w-1/2 lg:rounded-xl">
+    <form-header action="add-movie" v-on:close="() => emit('close')" />
 
-    <div class="item flex h-full flex-col gap-8 p-9">
-      <div class="flex items-center gap-4">
-        <div class="flex h-10 w-10 items-center justify-center rounded-full lg:h-16 lg:w-16">
-          <img
-            v-if="userStore.user?.avatar"
-            :src="userStore.user?.avatar"
-            alt="User Avatar"
-            class="h-10 w-10 rounded-full lg:h-16 lg:w-16"
-          />
-
-          <icon-user
-            v-if="!userStore.user?.avatar"
-            class="h-10 w-10 rounded-full lg:h-16 lg:w-16"
-          />
-        </div>
-
-        <p class="text-xl text-white">{{ userStore.user?.username }}</p>
-      </div>
+    <div class="flex h-full flex-col gap-8 p-9">
+      <user-info
+        :avatar="userStore.user?.avatar"
+        :username="userStore.user?.username"
+        class="text-xl"
+      />
 
       <form v-on:submit="onSubmit" class="flex flex-col gap-8">
         <div class="flex flex-col gap-4">
@@ -129,7 +106,7 @@ const onSubmit = handleSubmit(async (values) => {
           />
 
           <text-input-group
-            lang="Eng"
+            lang="ქარ"
             name="title[ka]"
             rules="required|ka"
             placeholder="ფილმის სახელი"
@@ -214,7 +191,7 @@ const onSubmit = handleSubmit(async (values) => {
                   v-if="selectedImage"
                   :src="imageUrl"
                   alt="Movie Image"
-                  class="w-44 shrink-0 border border-dashed border-gray-500 lg:w-1/2"
+                  class="h-28 w-44 shrink-0 border border-dashed border-gray-500 lg:h-40 lg:w-1/2"
                 />
 
                 <image-hint :selected-image="!!selectedImage" />

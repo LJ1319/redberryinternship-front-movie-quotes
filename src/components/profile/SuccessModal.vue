@@ -12,7 +12,7 @@ onClickOutside(alert.value, () => emit('close'))
 </script>
 
 <template>
-  <div class="fixed left-0 top-0 z-50 h-screen w-screen px-4 backdrop-blur-sm lg:hidden">
+  <div class="fixed left-0 top-0 z-50 h-screen w-screen bg-mirage-medium/70 px-4 lg:hidden">
     <div
       ref="alert"
       v-on:click.stop
