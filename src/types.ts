@@ -42,6 +42,39 @@ export type UpdateProfileValues = {
   password_confirmation?: string
 }
 
+export type Comment = {
+  body: string
+  username: string
+  user_avatar: string
+}
+
+export type Quote = {
+  id: number
+  title: string
+  image: string
+  username: string
+  user_avatar: string
+  movie_title: string
+  movie_year: string
+  likes: number
+  comments: number
+  translations: {
+    title: {
+      en: string
+      ka: string
+    }
+  }
+}
+
+export type QuoteFormRequest = {
+  title: {
+    en: string
+    ka: string
+  }
+  image: File
+  movie_id: number
+}
+
 export type Genre = {
   id: number
   title: string
@@ -63,7 +96,7 @@ export type Movie = {
   genres: Array<Genre>
   directors: string
   description: string
-  quotes: number
+  quotes: Array<Quote>
   translations: {
     title: {
       en: string

@@ -10,7 +10,7 @@ export const useMovieStore = defineStore('movie', () => {
   const loadMovies = async () => {
     try {
       const { data } = await getMovies()
-      movieList.value = data.data
+      movieList.value = data
     } catch (error: any) {
       console.error(error)
     }

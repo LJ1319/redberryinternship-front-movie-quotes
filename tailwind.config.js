@@ -1,5 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -10,9 +8,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        'helvetica-neue': ['Helvetica Neue', ...defaultTheme.fontFamily.sans],
-        'helvetica-neue-geo': ['Helvetica Neue GEO', ...defaultTheme.fontFamily.sans],
-        montserrat: ['Montserrat', ...defaultTheme.fontFamily.sans]
+        'helvetica-neue': ['Helvetica Neue'],
+        'helvetica-neue-geo': ['Helvetica Neue GEO'],
+        montserrat: ['Montserrat']
       },
       margin: {
         18: '70px'
@@ -40,6 +38,9 @@ export default {
         },
         purple: {
           DEFAULT: '#9747FF'
+        },
+        rose: {
+          DEFAULT: '#F3426C'
         }
       }
     }

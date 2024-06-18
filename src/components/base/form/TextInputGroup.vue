@@ -4,8 +4,9 @@ import { ErrorMessage, Field } from 'vee-validate'
 defineProps<{
   name: string
   rules: string
-  placeholder: string
+  placeholder?: string
   value?: string | number
+  label?: string
   lang?: string
 }>()
 </script>
@@ -15,6 +16,8 @@ defineProps<{
     <div
       class="flex h-12 w-full items-center gap-2 rounded border border-gray-500 bg-mirage-dark px-4 lg:text-xl"
     >
+      <label v-if="label" :for="name" class="shrink-0 text-base text-gray-500">{{ label }}:</label>
+
       <Field
         :name="name"
         :rules="rules"

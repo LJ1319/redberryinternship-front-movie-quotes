@@ -2,13 +2,26 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { setLocale } from '@vee-validate/i18n'
+import { useMovieStore } from '@/stores/MovieStore'
+import { useQuoteStore } from '@/stores/QuoteStore'
 import { onClickOutside } from '@/composables/onClickOutside'
 
 import IconCaret from '@/components/icons/IconCaret.vue'
 
+const { locale, availableLocales } = useI18n()
+const movieStore = useMovieStore()
+const quoteStore = useQuoteStore()
+
+const setUserLocale = (currentLocale: string) => {
+  locale.value = currentLocale
+  setLocale(currentLocale)
+
+  movieStore.loadMovies()
+  quoteStore.loadQuotes()
+}
+
 const dropdown = ref<HTMLElement | null>(null)
 const dropdownIsOpen = ref(false)
-const { locale, availableLocales } = useI18n()
 
 const switchDropdown = () => {
   dropdownIsOpen.value = !dropdownIsOpen.value
@@ -19,11 +32,6 @@ const closeDropdown = () => {
 }
 
 onClickOutside(dropdown.value, closeDropdown)
-
-const setUserLocale = (currentLocale: string) => {
-  locale.value = currentLocale
-  setLocale(currentLocale)
-}
 </script>
 
 <template>

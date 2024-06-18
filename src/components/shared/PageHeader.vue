@@ -36,7 +36,7 @@ watch(route, closeSidebar)
   <div
     v-if="sidebarIsOpen"
     v-on:click="closeSidebar"
-    class="fixed left-0 top-0 z-50 h-screen w-screen bg-transparent backdrop-blur-sm"
+    class="fixed left-0 top-0 z-50 h-screen w-screen bg-mirage-medium/70"
   >
     <page-sidebar v-on:click.stop class="h-full bg-mirage-dark" />
   </div>
@@ -56,7 +56,7 @@ watch(route, closeSidebar)
     </div>
 
     <div :class="!userStore.user && 'z-40'" class="flex items-center justify-end gap-4">
-      <button v-if="route.name === 'news-feed'">
+      <button v-if="route.name === 'news-feed'" class="lg:hidden">
         <icon-search />
       </button>
 

@@ -3,7 +3,7 @@ const emit = defineEmits(['cancel', 'switch'])
 </script>
 
 <template>
-  <div class="fixed left-0 top-0 z-50 h-full w-full backdrop-blur-sm lg:hidden"></div>
+  <div class="fixed left-0 top-0 z-50 h-full w-full bg-mirage-medium/70 lg:hidden"></div>
 
   <div
     class="absolute left-0 top-0 z-50 flex h-full w-full flex-col gap-8 rounded-t-xl bg-mirage-dark lg:static lg:z-0 lg:block lg:bg-transparent"

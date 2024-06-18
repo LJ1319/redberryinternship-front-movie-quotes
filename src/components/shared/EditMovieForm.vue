@@ -9,14 +9,16 @@ import { useGenreStore } from '@/stores/GenresStore'
 import { updateMovie } from '@/services/api/movies'
 import type { Genre, MovieFormRequest } from '@/types'
 
-import TextInputGroup from '@/components/my-movies/form/TextInputGroup.vue'
-import GenresDropdown from '@/components/my-movies/form/GenresDropdown.vue'
-import ImageHint from '@/components/my-movies/form/ImageHint.vue'
+import UserInfo from '@/components/shared/UserInfo.vue'
+import GenresDropdown from '@/components/base/dropdowns/GenresDropdown.vue'
+
+import ImageHint from '@/components/base/form/ImageHint.vue'
+import TextInputGroup from '@/components/base/form/TextInputGroup.vue'
 import PrimaryButton from '@/components/base/form/PrimaryButton.vue'
 
 import IconClose from '@/components/icons/IconClose.vue'
-import IconUser from '@/components/icons/IconUser.vue'
 import IconCaret from '@/components/icons/IconCaret.vue'
+import FormHeader from '@/components/base/form/FormHeader.vue'
 
 const emit = defineEmits(['close'])
 
@@ -28,6 +30,13 @@ const genreStore = useGenreStore()
 genreStore.loadGenres()
 
 const dropdownIsOpen = ref(false)
+const switchDropdown = () => {
+  dropdownIsOpen.value = !dropdownIsOpen.value
+}
+
+const closeDropdown = () => {
+  dropdownIsOpen.value = false
+}
 
 const selectedGenres = ref<Array<Genre> | undefined>([])
 if (movieStore.movie?.genres) {
@@ -37,14 +46,6 @@ if (movieStore.movie?.genres) {
 const { handleSubmit, setErrors } = useForm<MovieFormRequest>()
 const { value: sGenres } = useField<Array<Genre> | undefined>('genres', 'required')
 sGenres.value = selectedGenres.value
-
-const switchDropdown = () => {
-  dropdownIsOpen.value = !dropdownIsOpen.value
-}
-
-const closeDropdown = () => {
-  dropdownIsOpen.value = false
-}
 
 const addGenre = (genre: Genre) => {
   let inArray = false
@@ -124,36 +125,15 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div
-    class="absolute left-0 top-0 z-50 flex h-max w-full flex-col bg-mirage-dark lg:static lg:mx-auto lg:w-1/2 lg:rounded-xl"
-  >
-    <div class="flex items-center border-b border-zinc-600 p-9">
-      <h1 class="flex-1 text-center text-xl font-medium capitalize text-white lg:text-2xl">
-        {{ $t('edit-movie') }}
-      </h1>
-      <button v-on:click="emit('close')" class="shrink-0">
-        <icon-close color="white" />
-      </button>
-    </div>
+  <div class="flex h-max w-full flex-col bg-mirage-dark lg:mx-auto lg:w-1/2 lg:rounded-xl">
+    <form-header action="edit-movie" v-on:close="() => emit('close')" />
 
-    <div class="item flex h-full flex-col gap-8 p-9">
-      <div class="flex items-center gap-4">
-        <div class="flex h-10 w-10 items-center justify-center rounded-full lg:h-16 lg:w-16">
-          <img
-            v-if="userStore.user?.avatar"
-            :src="userStore.user?.avatar"
-            alt="User Avatar"
-            class="h-10 w-10 rounded-full lg:h-16 lg:w-16"
-          />
-
-          <icon-user
-            v-if="!userStore.user?.avatar"
-            class="h-10 w-10 rounded-full lg:h-16 lg:w-16"
-          />
-        </div>
-
-        <p class="text-xl text-white">{{ userStore.user?.username }}</p>
-      </div>
+    <div class="flex h-full flex-col gap-8 p-9">
+      <user-info
+        :avatar="userStore.user?.avatar"
+        :username="userStore.user?.username"
+        class="text-xl"
+      />
 
       <form v-on:submit="onSubmit" class="flex flex-col gap-8">
         <div class="flex flex-col gap-4">
@@ -161,7 +141,7 @@ const onSubmit = handleSubmit(async (values) => {
             lang="Eng"
             name="title[en]"
             rules="required|en"
-            placeholder="Movie title"
+            label="Movie title"
             :value="movieStore.movie?.translations.title.en"
           />
 
@@ -169,7 +149,7 @@ const onSubmit = handleSubmit(async (values) => {
             lang="ქარ"
             name="title[ka]"
             rules="required|ka"
-            placeholder="ფილმის სახელი"
+            label="ფილმის სახელი"
             :value="movieStore.movie?.translations.title.ka"
           />
 
@@ -214,7 +194,7 @@ const onSubmit = handleSubmit(async (values) => {
           <text-input-group
             name="year"
             rules="required|num"
-            placeholder="Year / წელი"
+            label="Year / წელი"
             :value="movieStore.movie?.year"
           />
 
@@ -222,7 +202,7 @@ const onSubmit = handleSubmit(async (values) => {
             lang="Eng"
             name="directors[en]"
             rules="required|en"
-            placeholder="Director(s)"
+            label="Director(s)"
             :value="movieStore.movie?.translations.directors.en"
           />
 
@@ -230,30 +210,46 @@ const onSubmit = handleSubmit(async (values) => {
             lang="ქარ"
             name="directors[ka]"
             rules="required|ka"
-            placeholder="რეჟისორ(ებ)ი"
+            label="რეჟისორ(ებ)ი"
             :value="movieStore.movie?.translations.directors.ka"
           />
 
-          <div class="relative flex flex-col gap-2 lg:text-xl">
-            <textarea
-              v-model="descEn"
-              name="description[en]"
-              placeholder="Movie description"
-              class="relative w-full rounded border border-gray-500 bg-mirage-dark p-4 pr-16 text-white focus:outline-none"
-            />
-            <span class="absolute right-4 top-4 text-gray-500">Eng</span>
+          <div class="flex flex-col gap-2">
+            <div
+              class="flex flex-col gap-2 rounded border border-gray-500 bg-mirage-dark pt-2 lg:text-xl"
+            >
+              <div class="flex w-full justify-between px-4 text-gray-500">
+                <label for="description[en]" class="text-base">Movie description:</label>
+                <span class="lg:text-xl">Eng</span>
+              </div>
+
+              <textarea
+                v-model="descEn"
+                name="description[en]"
+                id="description[en]"
+                class="w-full bg-transparent px-4 pb-4 text-white focus:outline-none"
+              />
+            </div>
 
             <span class="text-sm text-red-500">{{ descEnError }}</span>
           </div>
 
-          <div class="relative flex flex-col gap-2 lg:text-xl">
-            <textarea
-              v-model="descKa"
-              name="description[ka]"
-              placeholder="ფილმის აღწერა"
-              class="relative w-full rounded border border-gray-500 bg-mirage-dark p-4 pr-16 text-white focus:outline-none"
-            />
-            <span class="absolute right-4 top-4 text-gray-500">ქარ</span>
+          <div class="flex flex-col gap-2">
+            <div
+              class="flex flex-col gap-2 rounded border border-gray-500 bg-mirage-dark pt-2 lg:text-xl"
+            >
+              <div class="flex w-full justify-between px-4 text-gray-500">
+                <label for="description[en]" class="text-base">ფილმის აღწერა:</label>
+                <span>ქარ</span>
+              </div>
+
+              <textarea
+                v-model="descKa"
+                name="description[ka]"
+                id="description[ka]"
+                class="w-full bg-transparent px-4 pb-4 text-white focus:outline-none"
+              />
+            </div>
 
             <span class="text-sm text-red-500">{{ descKaError }}</span>
           </div>
@@ -269,7 +265,7 @@ const onSubmit = handleSubmit(async (values) => {
                   v-if="imageUrl"
                   :src="imageUrl"
                   alt="Movie Image"
-                  class="w-44 shrink-0 border border-dashed border-gray-500 lg:w-1/2"
+                  class="h-28 w-44 shrink-0 border border-dashed border-gray-500 lg:h-40 lg:w-1/2"
                 />
 
                 <image-hint :selected-image="!!imageUrl" />
@@ -289,7 +285,7 @@ const onSubmit = handleSubmit(async (values) => {
           </div>
         </div>
 
-        <primary-button action="edit" class="h-12 w-full text-xl" />
+        <primary-button action="save-changes" class="h-12 w-full text-xl" />
       </form>
     </div>
   </div>

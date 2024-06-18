@@ -19,7 +19,6 @@ let isPassword = ref(props.type === 'password')
 
 const toggleType = () => {
   isPassword.value = !isPassword.value
-  console.log(isPassword.value)
 }
 
 const errorClass = 'border border-red-500 focus:ring-0 focus:ring-opacity-0'
