@@ -37,7 +37,7 @@ const closeSuccessModal = () => {
   successModalIsOpen.value = false
 }
 
-let imageUrl = userStore.user?.avatar
+const imageUrl = ref<string | undefined>(userStore.user?.avatar)
 const selectedImage = ref<File | null>(null)
 
 const handleImageUpload = (event: Event) => {
@@ -45,7 +45,7 @@ const handleImageUpload = (event: Event) => {
 
   if (fileList && fileList.length) {
     const file = fileList[0]
-    imageUrl = URL.createObjectURL(file)
+    imageUrl.value = URL.createObjectURL(file)
     selectedImage.value = file
 
     isEditing.value = true
@@ -77,7 +77,7 @@ const enableEdit = (field: string) => {
 }
 
 const handleCancel = () => {
-  imageUrl = userStore.user?.avatar
+  imageUrl.value = userStore.user?.avatar
 
   isEditing.value = false
   editingUsername.value = false

@@ -43,6 +43,8 @@ export type UpdateProfileValues = {
 }
 
 export type Comment = {
+  id: number
+  user_id: string
   body: string
   username: string
   user_avatar: string
@@ -57,7 +59,8 @@ export type Quote = {
   movie_title: string
   movie_year: string
   likes: number
-  comments: number
+  isLiked: boolean
+  comments: Array<Comment>
   translations: {
     title: {
       en: string
@@ -129,4 +132,8 @@ export type MovieFormRequest = {
     ka: string
   }
   image: File
+}
+
+export type CommentFormRequest = {
+  body: string
 }
