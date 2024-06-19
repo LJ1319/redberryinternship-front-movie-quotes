@@ -2,8 +2,8 @@
 import { watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { setLocale } from '@vee-validate/i18n'
 
+import { setLocale } from '@vee-validate/i18n'
 import { useUserStore } from '@/stores/UserStore'
 import { getCookie, setCookie } from '@/utils/helpers'
 

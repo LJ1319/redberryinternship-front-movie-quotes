@@ -4,24 +4,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/*@layer base {*/
-/*  @font-face {*/
-/*    font-family: 'Helvetica Neue';*/
-/*    font-style: normal;*/
-/*    src: url('public/fonts/HelveticaNeueMedium.otf') format('truetype');*/
-/*  }*/
+@font-face {
+  font-family: 'Helvetica Neue';
+  font-style: normal;
+  src: url('../fonts/HelveticaNeueMedium.otf') format('truetype');
+}
 
-/*  @font-face {*/
-/*    font-family: 'Helvetica Neue GEO';*/
-/*    font-style: normal;*/
-/*    src: url('public/fonts/HelveticaNeueGEOMedium.ttf') format('truetype');*/
-/*  }*/
-/*}*/
+@font-face {
+  font-family: 'Helvetica Neue GEO';
+  font-style: normal;
+  src: url('../fonts/HelveticaNeueGEOMedium.ttf') format('truetype');
+}
 
-/*html[lang='en'] {*/
-/*  font-family: 'Helvetica Neue', serif;*/
-/*}*/
+html[lang='en'] {
+  font-family: 'Helvetica Neue', serif;
+}
 
-/*html[lang='ka'] {*/
-/*  font-family: 'Helvetica Neue GEO', serif;*/
-/*}*/
+html[lang='ka'] {
+  font-family: 'Helvetica Neue GEO', serif;
+}

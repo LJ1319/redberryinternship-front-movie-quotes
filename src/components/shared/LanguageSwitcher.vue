@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+
 import { setLocale } from '@vee-validate/i18n'
 import { useMovieStore } from '@/stores/MovieStore'
 import { useQuoteStore } from '@/stores/QuoteStore'
@@ -8,7 +10,9 @@ import { onClickOutside } from '@/composables/onClickOutside'
 
 import IconCaret from '@/components/icons/IconCaret.vue'
 
+const route = useRoute()
 const { locale, availableLocales } = useI18n()
+
 const movieStore = useMovieStore()
 const quoteStore = useQuoteStore()
 
@@ -16,8 +20,10 @@ const setUserLocale = (currentLocale: string) => {
   locale.value = currentLocale
   setLocale(currentLocale)
 
-  movieStore.loadMovies()
-  quoteStore.loadQuotes()
+  if (route.name !== 'landing') {
+    movieStore.loadMovies()
+    quoteStore.loadQuotes()
+  }
 }
 
 const dropdown = ref<HTMLElement | null>(null)
@@ -53,7 +59,7 @@ onClickOutside(dropdown.value, closeDropdown)
         :key="`locale-${locale}`"
         :value="locale"
         v-on:click="setUserLocale(locale)"
-        class="cursor-pointer border-b border-mirage-light p-1 text-white last-of-type:border-0"
+        class="cursor-pointer border-b border-mirage-light px-2 py-1 text-white last-of-type:border-0"
       >
         {{ locale === 'en' ? 'Eng' : 'ქარ' }}
       </li>

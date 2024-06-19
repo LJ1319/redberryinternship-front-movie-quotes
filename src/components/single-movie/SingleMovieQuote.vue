@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Quote } from '@/types'
 import { ref } from 'vue'
+import type { Quote } from '@/types'
 
 import QuoteActionsMenu from '@/components/single-movie/QuoteActionsMenu.vue'
 
@@ -38,7 +38,7 @@ const handleSubmit = async () => {}
   <div class="flex items-center justify-between">
     <div class="flex items-center gap-6">
       <div class="flex items-center gap-3">
-        <span class="text-xl text-white">{{ quote.comments }}</span>
+        <span class="text-xl text-white">{{ quote.comments.length }}</span>
         <icon-chat class="lg:h-8 lg:w-8" />
       </div>
 
