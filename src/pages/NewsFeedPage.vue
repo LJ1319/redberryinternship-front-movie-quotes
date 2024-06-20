@@ -4,6 +4,7 @@ import { onClickOutside } from '@/composables/onClickOutside'
 
 import AddQuoteForm from '@/components/shared/AddQuoteForm.vue'
 import FormModal from '@/components/shared/FormModal.vue'
+import SearchQuoteForm from '@/components/shared/SearchQuoteForm.vue'
 import QuotesGrid from '@/components/news-feed/QuotesGrid.vue'
 
 import IconPencilSquared from '@/components/icons/IconPencilSquared.vue'
@@ -56,16 +57,16 @@ onClickOutside(container.value, hideInput)
 
       <div
         ref="container"
-        v-show="containerIsShown"
+        v-if="containerIsShown"
         v-on:click.stop
-        class="relative hidden flex-1 items-center gap-4 border-b border-zinc-600 py-4 lg:flex"
+        class="hidden flex-1 flex-col gap-2 lg:flex"
       >
-        <icon-search />
-        <input
-          type="text"
+        <search-quote-form
           :placeholder="`${$t('enter')} @ ${$t('search-movie')}, ${$t('enter')} # ${$t('search-quote')}`"
-          class="w-full bg-transparent text-xl text-white focus:outline-none"
-        />
+          v-on:close="hideInput"
+        >
+          <icon-search />
+        </search-quote-form>
       </div>
     </div>
 

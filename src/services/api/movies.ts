@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { MovieFormRequest } from '@/types'
+import type { MovieFormRequest, MovieSearchFormRequest, QuoteSearchFormRequest } from '@/types'
 
 export const getMovies = async () => {
   return await axios.get('/api/movies')
@@ -32,6 +32,14 @@ export const deleteMovie = async (id: string | number) => {
   return await axios.post(`/api/movies/${id}`, null, {
     params: {
       _method: 'DELETE'
+    }
+  })
+}
+
+export const searchMovie = async (query: MovieSearchFormRequest) => {
+  return await axios.get('/api/movies', {
+    params: {
+      filter: query
     }
   })
 }

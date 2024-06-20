@@ -4,6 +4,7 @@ import { ErrorMessage, Field, useField, useForm } from 'vee-validate'
 
 import { useUserStore } from '@/stores/UserStore'
 import { useGenreStore } from '@/stores/GenresStore'
+import { useMovieStore } from '@/stores/MovieStore'
 import { addMovie } from '@/services/api/movies'
 import type { Genre, MovieFormRequest } from '@/types'
 
@@ -24,6 +25,7 @@ const emit = defineEmits(['close'])
 const userStore = useUserStore()
 const genreStore = useGenreStore()
 genreStore.loadGenres()
+const movieStore = useMovieStore()
 
 const dropdownIsOpen = ref(false)
 const switchDropdown = () => {
@@ -78,6 +80,7 @@ const onSubmit = handleSubmit(async (values) => {
 
   try {
     await addMovie(formData)
+    await movieStore.loadMovies()
     emit('close')
   } catch (error: any) {
     setErrors(error.response.data.errors)

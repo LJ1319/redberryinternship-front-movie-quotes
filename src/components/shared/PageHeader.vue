@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/UserStore'
 
 import PageSidebar from '@/components/shared/PageSidebar.vue'
+import SearchBar from '@/components/news-feed/SearchBar.vue'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher.vue'
 import LogoutButton from '@/components/base/buttons/LogoutButton.vue'
 
@@ -30,6 +31,16 @@ const closeSidebar = () => {
 }
 
 watch(route, closeSidebar)
+
+const searchBarIsOpen = ref(false)
+
+const openSearchBar = () => {
+  searchBarIsOpen.value = true
+}
+
+const closeSearchBar = () => {
+  searchBarIsOpen.value = false
+}
 </script>
 
 <template>
@@ -56,9 +67,11 @@ watch(route, closeSidebar)
     </div>
 
     <div :class="!userStore.user && 'z-40'" class="flex items-center justify-end gap-4">
-      <button v-if="route.name === 'news-feed'" class="lg:hidden">
+      <button v-if="route.name === 'news-feed'" v-on:click="openSearchBar" class="lg:hidden">
         <icon-search />
       </button>
+
+      <search-bar v-if="searchBarIsOpen" v-on:close="closeSearchBar" />
 
       <button v-if="userStore.user">
         <icon-bell />

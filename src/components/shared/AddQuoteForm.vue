@@ -119,7 +119,7 @@ const onSubmit = handleSubmit(async (values) => {
           <div class="flex flex-col gap-2 lg:gap-4">
             <p class="font-medium text-gold lg:text-2xl">{{ movieStore.movie?.title }}</p>
 
-            <div class="flex gap-4 lg:order-last">
+            <div class="flex gap-2 lg:order-last">
               <span class="font-bold text-gray-300 lg:text-lg">{{ $t('director') }}: </span>
               <p class="font-medium text-white lg:text-lg">{{ movieStore.movie?.directors }}</p>
             </div>

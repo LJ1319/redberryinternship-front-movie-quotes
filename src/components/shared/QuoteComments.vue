@@ -40,7 +40,7 @@ const handleCommenting = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <ul class="flex w-full flex-col gap-4 lg:gap-8">
+  <ul v-if="quote.comments.length" class="flex w-full flex-col gap-4 lg:gap-8">
     <li
       v-for="comment in quote.comments"
       :key="comment.id"
@@ -71,7 +71,9 @@ const handleCommenting = handleSubmit(async (values) => {
           :placeholder="$t('write-comment')"
           class="flex h-10 w-full items-center rounded-clg bg-mirage px-4 text-white focus:outline-none lg:h-14 lg:text-xl"
         />
-        <span class="text-sm text-red-500 lg:text-base">{{ errorMessage }}</span>
+        <span v-if="errorMessage" class="text-sm text-red-500 lg:text-base">
+          {{ errorMessage }}
+        </span>
       </div>
     </form>
   </div>
