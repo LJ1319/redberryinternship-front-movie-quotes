@@ -8,6 +8,7 @@ import QuoteComments from '@/components/shared/QuoteComments.vue'
 
 import IconChat from '@/components/icons/IconChat.vue'
 import IconHeart from '@/components/icons/IconHeart.vue'
+import IconHeartFill from '@/components/icons/IconHeartFill.vue'
 
 const props = defineProps<{
   quote: Quote
@@ -55,12 +56,17 @@ const handleLiking = async () => {
 
         <form v-on:submit.prevent="handleLiking">
           <button class="flex items-center">
-            <icon-heart class="fill-white hover:fill-rose lg:h-8 lg:w-8" />
+            <icon-heart
+              v-if="!props.quote.isLiked"
+              class="fill-white hover:fill-rose lg:h-8 lg:w-8"
+            />
+
+            <icon-heart-fill v-if="props.quote.isLiked" class="lg:h-8 lg:w-8" />
           </button>
         </form>
       </div>
     </div>
   </div>
 
-  <quote-comments v-if="props.quote" :quote="props.quote" />
+  <quote-comments :quote="props.quote" />
 </template>

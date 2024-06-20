@@ -137,3 +137,12 @@ export type MovieFormRequest = {
 export type CommentFormRequest = {
   body: string
 }
+
+export type QuoteSearchFormRequest = {
+  title?: string
+  movie_title?: string
+}
+
+export type MovieSearchFormRequest = {
+  title: string
+}

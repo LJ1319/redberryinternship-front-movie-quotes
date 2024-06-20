@@ -91,7 +91,6 @@ const onSubmit = handleSubmit(async (values) => {
     await movieStore.loadMovie(route.params.id.toString())
     emit('close')
   } catch (error: any) {
-    console.log(error)
     setErrors(error.response.data.errors)
   }
 })

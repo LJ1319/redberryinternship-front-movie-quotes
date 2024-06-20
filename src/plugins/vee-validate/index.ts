@@ -1,6 +1,14 @@
 import { defineRule, configure } from 'vee-validate'
 import { localize } from '@vee-validate/i18n'
-import { alphaNumRegex, emailRegex, enRegex, kaRegex, numRegex } from '@/config/regex'
+import {
+  alphaNumRegex,
+  emailRegex,
+  enRegex,
+  enSearchRegex,
+  kaRegex,
+  kaSearchRegex,
+  numRegex
+} from '@/config/regex'
 
 export default function veeValidate() {
   defineRule('required', (value: string) => {
@@ -39,6 +47,14 @@ export default function veeValidate() {
     return numRegex.test(value)
   })
 
+  defineRule('enSearch', (value: string) => {
+    return enSearchRegex.test(value)
+  })
+
+  defineRule('kaSearch', (value: string) => {
+    return kaSearchRegex.test(value)
+  })
+
   configure({
     generateMessage: localize({
       en: {
@@ -51,7 +67,10 @@ export default function veeValidate() {
           confirmed: 'Passwords must match',
           en: 'This filed must contain only Latin characters',
           ka: 'This filed must contain only Georgian characters',
-          num: 'This filed must contain only numbers'
+          num: 'This filed must contain only numbers',
+          enSearch: 'This filed must contain @ or # followed by only Latin characters and numbers',
+          kaSearch:
+            'This filed must contain @ or # followed by only Georgian characters and numbers'
         }
       },
       ka: {
@@ -65,7 +84,11 @@ export default function veeValidate() {
           confirmed: 'პაროლები უნდა ემთხვეოდეს',
           en: 'ეს ველი უნდა შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს',
           ka: 'ეს ველი უნდა შეიცავდეს მხოლოდ ქართულ სიმბოლოებს',
-          num: 'ეს ველი უნდა შეიცავდეს მხოლოდ რიცხვებს'
+          num: 'ეს ველი უნდა შეიცავდეს მხოლოდ რიცხვებს',
+          enSearch:
+            'ეს ველი უნდა იწყებოდეს @-ით ან #-ით და შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს და რიცხვებს',
+          kaSearch:
+            'ეს ველი უნდა იწყებოდეს @-ით ან #-ით და შეიცავდეს მხოლოდ ქართულ სიმბოლოებს და რიცხვებს'
         }
       }
     })

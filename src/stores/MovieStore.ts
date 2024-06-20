@@ -30,5 +30,9 @@ export const useMovieStore = defineStore('movie', () => {
     movieList.value = []
   }
 
-  return { movieList, movie, loadMovies, loadMovie, reset }
+  const setFiltered = (filtered: Array<MovieList>) => {
+    movieList.value = filtered
+  }
+
+  return { movieList, movie, loadMovies, loadMovie, reset, setFiltered }
 })

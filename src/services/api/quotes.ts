@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { QuoteFormRequest } from '@/types'
+import type { QuoteFormRequest, QuoteSearchFormRequest } from '@/types'
 
 export const getQuotes = async () => {
   return await axios.get('/api/quotes')
@@ -32,6 +32,14 @@ export const deleteQuote = async (id: string | number) => {
   return await axios.post(`/api/quotes/${id}`, null, {
     params: {
       _method: 'DELETE'
+    }
+  })
+}
+
+export const searchQuote = async (query: QuoteSearchFormRequest) => {
+  return await axios.get('/api/quotes', {
+    params: {
+      filter: query
     }
   })
 }

@@ -18,6 +18,9 @@ export default {
       padding: {
         18: '70px'
       },
+      gap: {
+        18: '70px'
+      },
       borderRadius: {
         clg: '10px'
       },

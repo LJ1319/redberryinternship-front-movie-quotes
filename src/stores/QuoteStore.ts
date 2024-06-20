@@ -29,5 +29,9 @@ export const useQuoteStore = defineStore('quote', () => {
     quote.value = null
   }
 
-  return { quoteList, quote, loadQuotes, loadQuote, reset }
+  const setFiltered = (filtered: Array<Quote>) => {
+    quoteList.value = filtered
+  }
+
+  return { quoteList, quote, loadQuotes, loadQuote, reset, setFiltered }
 })
