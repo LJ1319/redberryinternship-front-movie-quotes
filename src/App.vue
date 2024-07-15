@@ -5,14 +5,17 @@ import { useI18n } from 'vue-i18n'
 
 import { setLocale } from '@vee-validate/i18n'
 import { useUserStore } from '@/stores/UserStore'
+import { useNotificationStore } from '@/stores/NotificationStore'
+import { usePusherListener } from '@/composables/usePusherListener'
 import { getCookie, setCookie } from '@/utils/helpers'
 
 const router = useRouter()
 const route = useRoute()
 const { locale } = useI18n()
 
-const userStore = useUserStore()
 const localeCookie: string = getCookie('locale')
+const userStore = useUserStore()
+const notificationStore = useNotificationStore()
 
 const initLocale = () => {
   setLocale(locale.value)
@@ -37,6 +40,14 @@ watch(locale, () => {
 userStore.$subscribe((mutation, state) => {
   setCookie('user', JSON.stringify(state.user), 30)
 })
+
+if (userStore.user) {
+  usePusherListener(
+    `quote-interactions.${userStore.user.id}`,
+    'quote.interacted',
+    notificationStore.updateNotifications
+  )
+}
 </script>
 
 <template>

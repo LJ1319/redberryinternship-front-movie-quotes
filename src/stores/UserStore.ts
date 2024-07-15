@@ -13,7 +13,9 @@ export const useUserStore = defineStore('user', () => {
 
   const user = ref<User | null>(localeUser.value)
 
-  const reset = () => (user.value = null)
+  const reset = () => {
+    user.value = null
+  }
 
   return { user, reset }
 })

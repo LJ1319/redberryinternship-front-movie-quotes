@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 import { setLocale } from '@vee-validate/i18n'
 import { useMovieStore } from '@/stores/MovieStore'
 import { useQuoteStore } from '@/stores/QuoteStore'
+import { useNotificationStore } from '@/stores/NotificationStore'
 import { onClickOutside } from '@/composables/onClickOutside'
 
 import IconCaret from '@/components/icons/IconCaret.vue'
@@ -15,6 +16,7 @@ const { locale, availableLocales } = useI18n()
 
 const movieStore = useMovieStore()
 const quoteStore = useQuoteStore()
+const notificationStore = useNotificationStore()
 
 const setUserLocale = (currentLocale: string) => {
   locale.value = currentLocale
@@ -23,6 +25,7 @@ const setUserLocale = (currentLocale: string) => {
   if (route.name !== 'landing') {
     movieStore.loadMovies()
     quoteStore.loadQuotes()
+    notificationStore.loadNotifications()
   }
 }
 

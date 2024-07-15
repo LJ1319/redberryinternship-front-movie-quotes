@@ -146,3 +146,14 @@ export type QuoteSearchFormRequest = {
 export type MovieSearchFormRequest = {
   title: string
 }
+
+export type Notification = {
+  id: string
+  type: string
+  interaction: string
+  quote_id: string
+  username: string
+  user_avatar: string
+  interacted_at: string
+  read_at: string | null
+}

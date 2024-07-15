@@ -4,6 +4,9 @@ import { defaultLocale } from '@/plugins/i18n'
 
 import { useUserStore } from '@/stores/UserStore'
 import { useMovieStore } from '@/stores/MovieStore'
+import { useNotificationStore } from '@/stores/NotificationStore'
+import { useQuoteStore } from '@/stores/QuoteStore'
+
 import { initializeCSRFProtection } from '@/services/api/auth'
 import { getCookie, setCookie } from '@/utils/helpers'
 
@@ -42,14 +45,19 @@ instance.interceptors.response.use(
   async function (error) {
     const status = error.response.status
     const locale: string = getCookie('locale') ?? defaultLocale
+
     const userStore = useUserStore()
+    const quoteStore = useQuoteStore()
     const movieStore = useMovieStore()
+    const notificationStore = useNotificationStore()
 
     if (status === 401) {
-      setCookie('user', JSON.stringify({ user: null }), 30)
+      setCookie('user', null, 30)
 
       userStore.reset()
       movieStore.reset()
+      quoteStore.reset()
+      notificationStore.reset()
 
       await router.push({ name: 'landing', params: { locale: locale } })
     }

@@ -10,7 +10,7 @@ import PageHeader from '@/components/shared/PageHeader.vue'
   >
     <page-header />
 
-    <div class="mt-20 flex h-full w-full flex-1 flex-col justify-end lg:mt-24 lg:flex-row">
+    <div class="flex h-full w-full flex-1 flex-col justify-end lg:flex-row">
       <page-sidebar class="hidden lg:block" />
 
       <main class="flex h-full w-full flex-1 flex-col">
