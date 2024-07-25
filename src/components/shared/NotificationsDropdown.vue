@@ -50,6 +50,14 @@ const closeViewModal = () => {
 
 <template>
   <div
+    style="{
+      aspect-ratio: 1/cos(30deg);
+      clip-path: polygon(50% 0,100% 100%,0 100%);
+    }"
+    class="absolute right-[85px] top-[60px] h-12 w-12 bg-black lg:right-[270px] lg:top-[70px]"
+  ></div>
+
+  <div
     ref="dropdown"
     v-on:click.stop
     class="absolute left-0 top-20 z-50 flex h-screen w-full flex-col gap-8 overflow-scroll bg-black p-9 lg:left-auto lg:top-24 lg:h-[50rem] lg:w-[60rem] lg:rounded-xl"
@@ -64,7 +72,10 @@ const closeViewModal = () => {
       </form>
     </div>
 
-    <ul v-if="notificationStore.notificationList.length" class="flex w-full flex-col gap-2">
+    <ul
+      v-if="notificationStore.notificationList.length"
+      class="mb-18 flex w-full flex-col gap-2 lg:mb-0"
+    >
       <li
         v-for="notification in notificationStore.notificationList"
         :key="notification.id"
