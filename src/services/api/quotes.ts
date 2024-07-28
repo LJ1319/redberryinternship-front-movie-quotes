@@ -1,8 +1,12 @@
 import axios from '@/plugins/axios'
 import type { QuoteFormRequest, QuoteSearchFormRequest } from '@/types'
 
-export const getQuotes = async () => {
-  return await axios.get('/api/quotes')
+export const getQuotes = async (page: number) => {
+  return await axios.get('/api/quotes', {
+    params: {
+      page: page
+    }
+  })
 }
 
 export const getQuote = async (id: string | number) => {

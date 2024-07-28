@@ -2,9 +2,26 @@
 import { useQuoteStore } from '@/stores/QuoteStore'
 
 import MovieQuote from '@/components/news-feed/MovieQuote.vue'
+import { onMounted, onUnmounted } from 'vue'
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 
 const quoteStore = useQuoteStore()
 quoteStore.loadQuotes()
+
+const handleScroll = () => {
+  const bottomOfWindow =
+    window.innerHeight + window.scrollY >= document.documentElement.offsetHeight
+  if (bottomOfWindow) {
+    quoteStore.loadQuotes()
+  }
+}
 </script>
 
 <template>
@@ -17,4 +34,5 @@ quoteStore.loadQuotes()
       <movie-quote :quote="quote" />
     </li>
   </ul>
+  <!--  <button v-on:click="() => quoteStore.loadQuotes()" class="text-white">load more</button>-->
 </template>

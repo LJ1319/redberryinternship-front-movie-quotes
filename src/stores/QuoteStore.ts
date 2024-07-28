@@ -4,15 +4,27 @@ import type { Quote } from '@/types'
 import { getQuote, getQuotes } from '@/services/api/quotes'
 
 export const useQuoteStore = defineStore('quote', () => {
-  const quoteList = ref<Array<Quote>>()
+  const quoteList = ref<Array<Quote>>([])
   const quote = ref<Quote | null>(null)
 
+  const loading = ref(false)
+  const canLoadMore = ref(true)
+  const page = ref(0)
+
   const loadQuotes = async () => {
-    try {
-      const { data } = await getQuotes()
-      quoteList.value = data.data
-    } catch (error: any) {
-      console.error(error)
+    if (!loading.value && canLoadMore.value) {
+      loading.value = true
+      page.value++
+
+      try {
+        const { data } = await getQuotes(page.value)
+        quoteList.value = [...quoteList.value, ...data.data]
+
+        canLoadMore.value = data.links.next !== null
+        loading.value = false
+      } catch (error: any) {
+        console.error(error)
+      }
     }
   }
 
